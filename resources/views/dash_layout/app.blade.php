@@ -201,11 +201,11 @@
 
   <footer id="footer" class="footer py-3 @if(isset($daa))@else fixed-bottom @endif bg-white">
     <div class="copyright">
-      &copy; Copyright <strong><span>DawaSmart</span></strong>. All Rights Reserved
+      &copy; Copyright <strong><span>DawaSmart</span></strong>. {{ date('Y') }} All Rights Reserved
     </div>
     <div class="credits">
    
-      Designed by <a href="#">NexGenTz</a>
+      Designed by <a href="#">DawaSmart Tz </a>
     </div>
   </footer>
 

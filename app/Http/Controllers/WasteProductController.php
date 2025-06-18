@@ -6,11 +6,11 @@ use App\Models\WasteProduct;
 use App\Models\Product;
 use Carbon\Carbon;
 
-class WasteManagementController extends Controller
+class DisposalProductController extends Controller
 {
     public function index()
     {
-        $wasteProducts = WasteProduct::with('products')->latest()->get();
+        $DisposalProducts = WasteProduct::with('products')->latest()->get();
         $products = Product::all(); 
         $title="Waste";
         return view('dashboard.waste.index', compact('wasteProducts','products','title'));

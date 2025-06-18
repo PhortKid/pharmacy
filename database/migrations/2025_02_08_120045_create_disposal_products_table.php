@@ -1,33 +1,26 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
+namespace App\Models;
 
-return new class extends Migration
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class DisposalProduct extends Model
 {
-    /**
-     * Run the migrations.
-     */
-    public function up(): void
-    {
-        Schema::create('disposal_products', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('purchase_id');
-            $table->integer('quantity_disposed');
-            $table->string('reason'); 
-            $table->date('disposed_at');
-            $table->foreign('purchase_id')->references('id')->on('purchases')->onDelete('cascade');
-            $table->timestamps();
-        });
-        
-    }
+    use HasFactory;
+
+    protected $fillable = [
+        'purchase_id',
+        'quantity_disposed',
+        'reason',
+        'disposed_at',
+    ];
 
     /**
-     * Reverse the migrations.
+     * A disposal belongs to a purchase
      */
-    public function down(): void
+    public function purchase()
     {
-        Schema::dropIfExists('disposal_products');
+        return $this->belongsTo(Purchase::class);
     }
-};
+}

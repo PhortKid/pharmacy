@@ -9,22 +9,27 @@ class Sale extends Model
 {
     use HasFactory;
 
-    // Fillable properties
     protected $fillable = [
-        'product_id',
-        'movement_type',
-        'quantity',
-        'price_at_time',
-        'notes',
-       
+        'quantity_sold',
+        'purchase_id',
+        'user_id',
+        'total_price',
+        'receipt_no',
     ];
 
     /**
-     * Relationship with Product
-     * A stock movement belongs to one product.
+     * Sale belongs to a Purchase
      */
-    public function product()
+    public function purchase()
     {
-        return $this->belongsTo(Product::class);
+        return $this->belongsTo(Purchase::class);
+    }
+
+    /**
+     * Sale belongs to a User
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

@@ -1,25 +1,19 @@
-
-<div class="modal fade" id="deleteStockMovement{{ $purchase->id }}" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
+<div class="modal fade" id="deletePurchase{{ $purchase->id }}" tabindex="-1" aria-labelledby="deletePurchaseLabel{{ $purchase->id }}" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <form action="{{ route('purchases.destroy', $purchase->id) }}" method="POST" class="modal-content">
+            @csrf
+            @method('DELETE')
             <div class="modal-header">
-                <h5 class="modal-title">Delete Stock Movement</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                <h5 class="modal-title" id="deletePurchaseLabel{{ $purchase->id }}">Delete Purchase #{{ $purchase->id }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <p>Are you sure you want to delete this stock movement for <strong>{{ $purchase->product->name }}</strong>?</p>
-                <p><strong>Movement Type:</strong> {{ ucfirst($purchase->movement_type) }}</p>
-                <p><strong>Quantity:</strong> {{ $purchase->quantity }}</p>
+                <p>Are you sure you want to delete this purchase of <strong>{{ $purchase->product->name ?? 'Unknown Product' }}</strong>?</p>
             </div>
             <div class="modal-footer">
-                <form action="{{ route('sales.destroy', $purchase->id) }}" method="POST">
-                    @csrf
-                    @method('DELETE')
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-danger">Delete</button>
-                </form>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-danger">Yes, Delete</button>
             </div>
-        </div>
+        </form>
     </div>
 </div>
-

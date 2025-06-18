@@ -15,14 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
-           // $table->string('manufacturer');
-            $table->string('barcode')->nullable();
-            //$table->enum('unit', ['pill', 'bottle', 'box', 'vial', 'other']);
-            $table->decimal('purchase_price', 10, 2);
-            $table->decimal('selling_price', 10, 2);
-            $table->integer('stock_quantity')->default(0);
             $table->integer('min_stock_level')->default(10); 
-            $table->date('expiry_date')->nullable();
             $table->timestamps();
         });
     }

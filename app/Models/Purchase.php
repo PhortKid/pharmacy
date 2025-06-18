@@ -15,8 +15,19 @@ class Purchase extends Model
     'total_purchase',
     'payment_method',
     'expire_date',
-    'manufacture',
+    'manufacturer',
     'supplier_id'
    ];
+
+
+
+   public function product() {
+      return $this->belongsTo(Product::class);
+  }
+  
+  public function supplier() {
+      return $this->belongsTo(Supplier::class);
+  }
+  
 
 }

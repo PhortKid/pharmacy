@@ -21,7 +21,7 @@ return new class extends Migration
             $table->decimal('total_purchase',10,2);
             $table->String('payment_method');
             $table->String('expire_date');
-            $table->String('manufacture');
+            $table->String('manufacturer');
             $table->foreignId('supplier_id')->constrained()->onDelete('cascade'); 
             $table->timestamps();
         });

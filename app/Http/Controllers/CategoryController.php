@@ -45,9 +45,9 @@ class CategoryController extends Controller
     // Show the form to edit a category
     public function edit($id)
     {
-     //   $category = Category::findOrFail($id);
-      //  return view('categories.edit', compact('category'));
-      return 'soon';
+       $category = Category::findOrFail($id);
+        return view('dashboard.categories.edit', compact('category'));
+     
     
     }
 

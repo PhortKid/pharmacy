@@ -5,115 +5,90 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Sale;
 use App\Models\Product;
+use App\Models\Purchase;
 use Illuminate\Support\Facades\Auth;
 
 class SalesController extends Controller
 {
     /**
-     * Display a listing of the stock movements.
+     * Display all sales.
      */
     public function index()
     {
-        $title="Stock Movement";
-        $stockMovements = Sale::with('product')->latest()->get();
-        $products = Purchase::all(); // Fetch all purchase for dropdown selection
-        
-        return view('dashboard.sales.index', compact('stockMovements', 'products','title'));
+        $title = "Sales";
+        $sales = Sale::with(['purchase.product', 'user'])->latest()->get();
+        $purchases = Purchase::with('product')->get();
+
+        return view('dashboard.sales.index', compact('sales', 'purchases', 'title'));
     }
 
     /**
-     * Store a newly created stock movement.
+     * Store a new sale.
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'product_id' => 'required|exists:products,id',
-            'movement_type' => 'required|in:purchase,sale,return,adjustment',
-            'quantity' => 'required|integer|min:1',
-            'price_at_time' => 'required|numeric|min:0',
-            'notes' => 'nullable|string',
+        $validated = $request->validate([
+            'purchase_id' => 'required|exists:purchases,id',
+            'quantity_sold' => 'required|integer|min:1',
+            'total_price' => 'required|numeric|min:0',
+            'receipt_no' => 'nullable|string|max:255',
         ]);
-
-        $pharmacy_id=Auth::user()->pharmacy_id;
-
-       
-        //$movement = StockMovement::create($request->all(),);
-       $movement=Sale::create(['product_id'=>$request->product_id,'movement_type'=>$request->movement_type,'quantity'=>$request->quantity,'price_at_time'=>$request->price_at_time,'pharmacy_id'=>$pharmacy_id]);
-
-  
-
-        // Sasisha stock ya bidhaa husika
-      $this->updateStock($request->product_id, $request->movement_type, $request->quantity);
-
-       return redirect()->back()->with('success', 'Stock movement recorded successfully.');
+    
+        $purchase = Purchase::with('product')->findOrFail($validated['purchase_id']);
+        $product = $purchase->product;
+    
+        $validated['user_id'] = Auth::id();
+    
+        Sale::create($validated);
+    
+        $product->save();
+    
+        return redirect()->back()->with('success', 'Sale recorded successfully.');
     }
-
+    
     /**
-     * Update the specified stock movement.
+     * Update a sale.
      */
     public function update(Request $request, $id)
-    {
-        $request->validate([
-            'product_id' => 'required|exists:products,id',
-            'movement_type' => 'required|in:purchase,sale,return,adjustment',
-            'quantity' => 'required|integer|min:1',
-            'price_at_time' => 'required|numeric|min:0',
-            'notes' => 'nullable|string',
-        ]);
+{
+    $validated = $request->validate([
+        'purchase_id' => 'required|exists:purchases,id',
+        'quantity_sold' => 'required|integer|min:1',
+        'total_price' => 'required|numeric|min:0',
+        'receipt_no' => 'nullable|string|max:255',
+    ]);
 
-        $movement = Sale::findOrFail($id);
+    $sale = Sale::findOrFail($id);
+    $oldQuantity = $sale->quantity_sold;
 
-        // Reverse old movement before updating
-        $this->reverseStock($movement);
+    $purchase = Purchase::with('product')->findOrFail($validated['purchase_id']);
+    $product = $purchase->product;
 
-        $movement->update($request->all());
+    $product->stock_quantity += $oldQuantity;
 
-        // Apply new movement changes
-        $this->updateStock($request->product_id, $request->movement_type, $request->quantity);
+    $sale->update($validated);
 
-        return redirect()->back()->with('success', 'Stock movement updated successfully.');
-    }
+   
+    $product->save();
+
+    return redirect()->back()->with('success', 'Sale updated successfully.');
+}
+
 
     /**
-     * Remove the specified stock movement.
+     * Delete a sale.
      */
     public function destroy($id)
     {
-        $movement = Sale::findOrFail($id);
+        $sale = Sale::findOrFail($id);
+        $product = $sale->purchase->product;
 
-        // Reverse stock before deleting
-        $this->reverseStock($movement);
-
-        $movement->delete();
-
-        return redirect()->back()->with('success', 'Stock movement deleted successfully.');
-    }
-
-    /**
-     * Update stock based on movement type.
-     */
-    private function updateStock($product_id, $movement_type, $quantity)
-    {
-        $product = Product::findOrFail($product_id);
-        if ($movement_type == 'purchase' || $movement_type == 'return') {
-            $product->stock_quantity += $quantity;
-        } elseif ($movement_type == 'sale' || $movement_type == 'adjustment') {
-            $product->stock_quantity -= $quantity;
-        }
+        // Revert stock
+        $product->stock_quantity += $sale->quantity_sold;
         $product->save();
-    }
 
-    /**
-     * Reverse stock changes before updating or deleting movement.
-     */
-    private function reverseStock($movement)
-    {
-        $product = Product::findOrFail($movement->product_id);
-        if ($movement->movement_type == 'purchase' || $movement->movement_type == 'return') {
-            $product->stock_quantity -= $movement->quantity;
-        } elseif ($movement->movement_type == 'sale' || $movement->movement_type == 'adjustment') {
-            $product->stock_quantity += $movement->quantity;
-        }
-        $product->save();
+        $sale->delete();
+
+        return redirect()->back()->with('success', 'Sale deleted successfully.');
     }
 }

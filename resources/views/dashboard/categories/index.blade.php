@@ -39,10 +39,49 @@
                                     <td>{{$category->unit}}</td>
                                     <td>
                                       
-                                        <!-- Edit Button -->
-                                        <a href="{{ route('categories.edit', $category->id) }}" class="btn btn-warning btn-sm">
-                                            <i class="bi bi-pencil"></i> Edit
-                                        </a>
+                                    <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editModal{{ $category->id }}">
+    <i class="bi bi-pencil"></i> Edit
+</button>
+
+                                        <!-- Edit Modal -->
+                                        <div class="modal fade" id="editModal{{ $category->id }}" tabindex="-1" aria-labelledby="editModalLabel{{ $category->id }}" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <form action="{{ route('categories.update', $category->id) }}" method="POST">
+                                                @csrf
+                                                @method('PUT')
+                                                <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="editModalLabel{{ $category->id }}">Edit Category</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+
+                                                    <div class="mb-3">
+                                                    <label for="name{{ $category->id }}" class="form-label">Category Name</label>
+                                                    <input type="text" class="form-control" id="name{{ $category->id }}" name="name" value="{{ $category->name }}" required>
+                                                    </div>
+
+                                                    <div class="mb-3">
+                                                    <label for="unit{{ $category->id }}" class="form-label">Unit</label>
+                                                    <select name="unit" id="unit{{ $category->id }}" class="form-control">
+                                                        <option value="Pills" {{ $category->unit == 'Pills' ? 'selected' : '' }}>Pills</option>
+                                                        <option value="Tablets" {{ $category->unit == 'Tablets' ? 'selected' : '' }}>Tablets</option>
+                                                        <option value="Ya maji" {{ $category->unit == 'Ya maji' ? 'selected' : '' }}>Ya maji</option>
+                                                        <option value="Others" {{ $category->unit == 'Others' ? 'selected' : '' }}>Others</option>
+                                                    </select>
+                                                    </div>
+
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                                                </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        </div>
+
+
                                   
                                         <!-- Delete Button -->
                                         <form action="{{ route('categories.destroy', $category->id) }}" method="POST" style="display:inline;">

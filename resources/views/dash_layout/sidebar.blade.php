@@ -74,12 +74,7 @@
             <a href="{{route('sales.index')}}">
               <i class="bi bi-circle"></i><span>Manage Sales</span>
             </a>
-          </li>  
-          <li>
-            <a href="/reports_stock">
-              <i class="bi bi-circle"></i><span>Sales Report</span>
-            </a>
-          </li>  
+          </li>   
 
         </ul>
       </li>
@@ -172,7 +167,7 @@
       <li class="nav-item">
         <a class="nav-link collapsed" href="/suppliers">
           <i class="bi bi-person"></i>
-          <span>suppliers</span>
+          <span>Suppliers</span>
         </a>
       </li><!-- End Profile Page Nav -->
       

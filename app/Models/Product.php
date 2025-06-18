@@ -11,14 +11,8 @@ class Product extends Model
 
     protected $fillable = [
         'name',
-        'category_id',  // Changed from 'category' to 'category_id'
-        'manufacturer',
-        'unit',
-        'purchase_price',
-        'selling_price',
-        'stock_quantity',
+        'category_id', 
         'min_stock_level',
-        'expiry_date',
     ];
 
     /**
