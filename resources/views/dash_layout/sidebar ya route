@@ -1,0 +1,92 @@
+<!-- ======= Sidebar ======= -->
+<aside id="sidebar" class="sidebar">
+    <ul class="sidebar-nav" id="sidebar-nav">
+
+        <!-- Dashboard -->
+        <li class="nav-item">
+            <a class="nav-link {{ Route::is('dashboard') ? 'active' : '' }}" href="{{ route('dashboard') }}">
+                <i class="bi bi-grid"></i>
+                <span>Dashboard</span>
+            </a>
+        </li>
+
+        <!-- Users Management -->
+        <li class="nav-item">
+            <a class="nav-link collapsed {{ Route::is('users_management.index') ? 'active' : '' }}" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
+                <i class="bi bi-menu-button-wide"></i><span>Users</span><i class="bi bi-chevron-down ms-auto"></i>
+            </a>
+            <ul id="components-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+                <li>
+                    <a href="{{ route('users_management.index') }}" class="{{ Route::is('users_management.index') ? 'active' : '' }}">
+                        <i class="bi bi-circle"></i><span>Manage Users</span>
+                    </a>
+                </li>
+            </ul>
+        </li><!-- End Users Nav -->
+{{--
+        <!-- Inventory Management -->
+        <li class="nav-item">
+            <a class="nav-link collapsed {{ Route::is('inventory_management.index') ? 'active' : '' }}" data-bs-target="#components-nav1" data-bs-toggle="collapse" href="#">
+                <i class="bi bi-menu-button-wide"></i><span>Inventory Management</span><i class="bi bi-chevron-down ms-auto"></i>
+            </a>
+            <ul id="components-nav1" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+                <li>
+                    <a href="{{ route('inventory_management.index') }}" class="{{ Route::is('inventory_management.index') ? 'active' : '' }}">
+                        <i class="bi bi-circle"></i><span>Manage Products</span>
+                    </a>
+                </li>
+            </ul>
+        </li><!-- End Inventory Nav -->
+
+        <!-- Sales & Billing -->
+        <li class="nav-item">
+            <a class="nav-link collapsed {{ Route::is('sales_billing.index') ? 'active' : '' }}" data-bs-target="#components-nav2" data-bs-toggle="collapse" href="#">
+                <i class="bi bi-menu-button-wide"></i><span>Sales & Billing</span><i class="bi bi-chevron-down ms-auto"></i>
+            </a>
+            <ul id="components-nav2" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+                <li>
+                    <a href="{{ route('sales_billing.index') }}" class="{{ Route::is('sales_billing.index') ? 'active' : '' }}">
+                        <i class="bi bi-circle"></i><span>Manage Sales</span>
+                    </a>
+                </li>
+            </ul>
+        </li><!-- End Sales Nav -->
+
+        <!-- Reports -->
+        <li class="nav-item">
+            <a class="nav-link collapsed {{ Route::is('reports.index') ? 'active' : '' }}" data-bs-target="#components-nav3" data-bs-toggle="collapse" href="#">
+                <i class="bi bi-menu-button-wide"></i><span>Reports</span><i class="bi bi-chevron-down ms-auto"></i>
+            </a>
+            <ul id="components-nav3" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+                <li>
+                    <a href="{{ route('reports.index') }}" class="{{ Route::is('reports.index') ? 'active' : '' }}">
+                        <i class="bi bi-circle"></i><span>Manage Reports</span>
+                    </a>
+                </li>
+            </ul>
+        </li><!-- End Reports Nav -->
+
+        <!-- Expiry & Waste Management -->
+        <li class="nav-item">
+            <a class="nav-link collapsed {{ Route::is('expiry_waste_management.index') ? 'active' : '' }}" data-bs-target="#components-nav4" data-bs-toggle="collapse" href="#">
+                <i class="bi bi-menu-button-wide"></i><span>Expiry & Waste Management</span><i class="bi bi-chevron-down ms-auto"></i>
+            </a>
+            <ul id="components-nav4" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+                <li>
+                    <a href="{{ route('expiry_waste_management.index') }}" class="{{ Route::is('expiry_waste_management.index') ? 'active' : '' }}">
+                        <i class="bi bi-circle"></i><span>Manage Waste</span>
+                    </a>
+                </li>
+            </ul>
+        </li><!-- End Expiry & Waste Nav -->
+
+        <!-- Profile -->
+        <li class="nav-item">
+            <a class="nav-link collapsed {{ Route::is('profile') ? 'active' : '' }}" href="{{ route('profile') }}">
+                <i class="bi bi-person"></i>
+                <span>Profile</span>
+            </a>
+        </li><!-- End Profile Page Nav --> --}}
+        
+    </ul>
+</aside><!-- End Sidebar-->
