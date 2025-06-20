@@ -74,7 +74,7 @@
                             <td>{{ $product->name }}</td>
                             <td>{{ $product->category->name }}</td>
                             <td>{{ $product->stock_quantity }}</td>
-                            <td>{{ \Carbon\Carbon::parse($product->expiry_date)->format('d/m/Y') }}</td>
+                            <td>{{ \Carbon\Carbon::parse($product->purchase->expiry_date)->format('d/m/Y') }}</td>
                         </tr>
                         @endforeach
                     </tbody>

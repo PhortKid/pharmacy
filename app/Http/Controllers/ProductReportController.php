@@ -14,7 +14,7 @@ class ProductReportController extends Controller
     {
         $pharmacy_id=Auth::user()->pharmacy_id;
         // Fetch all categories
-        $categories = Category::with('products')->where('pharmacy_id',$pharmacy_id)->get();
+        $categories = Category::with('products')->get();
 
 
 
@@ -25,7 +25,7 @@ class ProductReportController extends Controller
             $query->where('category_id', $request->category_id);
         }
 
-        $products = $query->where('pharmacy_id',$pharmacy_id)->get();
+        $products = $query->with('purchase')->get();
         $title="product report";
 
         return view('dashboard.reports.product_report', compact('categories', 'products','title'));

@@ -22,11 +22,11 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($wasteProducts as $index => $waste)
+                                @foreach ($DisposalProducts as $index => $waste)
                                     <tr>
                                         <td>{{ $index + 1 }}</td>
-                                        <td>{{ $waste->product->name }}</td>
-                                        <td>{{ $waste->quantity }}</td>
+                                        <td>{{ $waste->purchase->product->name }}</td>
+                                        <td>{{ $waste->quantity_disposed }}</td>
                                         <td>{{ $waste->reason }}</td>
                                         <td>{{ \Carbon\Carbon::parse($waste->wasted_at)->format('d/m/Y') }}</td>
                                     </tr>
@@ -58,10 +58,10 @@
                     @csrf
                     <div class="mb-3">
                         <label for="product_id" class="form-label">Product</label>
-                        <select name="product_id" class="form-control" required>
+                        <select name="purchase_id" class="form-control" required>
                             <option value="">-- Select Product --</option>
-                            @foreach($products as $product)
-                                <option value="{{ $product->id }}">{{ $product->name }}</option>
+                            @foreach($purchases as $purchase)
+                                <option value="{{ $purchase->id }}">{{ $purchase->product->name }}</option>
                             @endforeach
                         </select>
                     </div>

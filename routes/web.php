@@ -9,7 +9,7 @@ use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ExpiryReportController;
 use App\Http\Controllers\StockReportController;
-use App\Http\Controllers\WasteManagementController;
+use App\Http\Controllers\DisposalProductController;
 use App\Http\Controllers\ProductReportController;
 use App\Http\Controllers\SalesController;
 use App\Http\Controllers\SupplierController;
@@ -53,8 +53,8 @@ Route::put('/sales/{id}', [SalesController::class, 'update'])->name('sales.updat
 Route::delete('/sales/{id}', [SalesController::class, 'destroy'])->name('sales.destroy');
 Route::get('/reports_stock', [StockReportController::class, 'index'])->name('stock.report');
 Route::get('/reports_expiry', [ExpiryReportController::class, 'index'])->name('expiry.report');
-Route::get('/waste', [WasteManagementController::class, 'index'])->name('waste.index');
-Route::post('/waste', [WasteManagementController::class, 'store'])->name('waste.store');
+Route::get('/waste', [DisposalProductController::class, 'index'])->name('waste.index');
+Route::post('/waste', [DisposalProductController::class, 'store'])->name('waste.store');
 Route::get('/product-report', [ProductReportController::class, 'index'])->name('product.report');
 
 

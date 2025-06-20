@@ -8,10 +8,10 @@ class DisposalProduct extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['product_id', 'quantity', 'reason', 'wasted_at'];
+    protected $fillable = ['purchase_id', 'quantity_disposed', 'reason', 'disposed_at'];
 
-    public function product()
+    public function purchase()
     {
-        return $this->belongsTo(Product::class);
+        return $this->belongsTo(Purchase::class);
     }
 }
