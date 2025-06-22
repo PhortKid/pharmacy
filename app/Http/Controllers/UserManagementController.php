@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Flasher\Prime\FlasherInterface;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Mail;
 
 
 class UserManagementController extends Controller
@@ -41,7 +43,16 @@ class UserManagementController extends Controller
             'role'         => ['required', 'string'],
         ]);
     
-        $password = "Mpya@2025"; // Default password for new users
+        function generateStrongPassword($length = 8) {
+            $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()';
+            return substr(str_shuffle(str_repeat($chars, ceil($length/strlen($chars)))), 0, $length);
+        }
+        
+        $password = generateStrongPassword(8);
+
+         
+   
+    
         $user = new User;
         $user->firstname = trim($request->input('firstname'));
         $user->lastname = trim($request->input('lastname'));
@@ -51,6 +62,13 @@ class UserManagementController extends Controller
         //$user->pharmacy_id = Auth::user()->pharmacy_id;
         $user->password = Hash::make($password);
         $user->save();
+
+        $myemail=$user->email;
+        Mail::raw("Habari $user->firstname,\n\nPassword yako mpya ni: $password\n\nTafadhali badilisha password baada ya kuingia.", function ($message) use ($myemail) {
+            $message->to($myemail)
+                    ->subject('Password yako mpya');
+        });
+        
     
         return redirect()->route('users_management.index')->with('success', 'User added successfully.');
     }

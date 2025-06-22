@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use Illuminate\Validation\Rules\Password;
 
 class ProfilesController extends Controller
 {
@@ -38,7 +39,16 @@ class ProfilesController extends Controller
     {
         $request->validate([
             'current_password' => 'required',
-            'new_password' => 'required|min:6|confirmed',
+            'new_password' => [
+                'required',
+                'confirmed',
+                Password::min(8)
+                    ->mixedCase()     
+                    ->letters()      
+                    ->numbers()       
+                    ->symbols()       
+                    ->uncompromised()
+            ]
         ]);
 
         $user = Auth::user();

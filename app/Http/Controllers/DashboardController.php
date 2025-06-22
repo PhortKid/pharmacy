@@ -10,6 +10,8 @@ use App\Models\Notification;
 
 use App\Models\Supplier;
 use App\Models\SupplierPayment;
+use App\Models\Purchase;
+
 
 use App\Models\AuditLog;
 
@@ -23,7 +25,7 @@ class DashboardController extends Controller
         $totalProducts = Product::count();
 
         // Count expired products
-        $expiredCount = Product::whereDate('expiry_date', '<', now())
+        $expiredCount = Purchase::whereDate('expiry_date', '<', now())
             ->count();
 
         // Count products expiring in 7 days
