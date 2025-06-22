@@ -15,7 +15,7 @@
                         <select name="product_id" class="form-control" required>
                             <option value="">-- Select Product --</option>
                             @foreach($products as $product)
-                                <option value="{{ $product->id }}">{{ $product->name }}</option>
+                                <option value="{{ $product->id }}">{{ ucfirst($product->name) }} - Category ({{$product->category->name}})</option>
                             @endforeach
                         </select>
                     </div>

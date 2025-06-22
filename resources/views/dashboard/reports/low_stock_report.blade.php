@@ -4,6 +4,7 @@
 @section('module', 'Stock Management')
 
 @section('content')
+<div class="container mb-5">
 <section class="section">
     <div class="row">
         <!-- Low Stock Card -->
@@ -45,21 +46,22 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($lowStockProducts as $product)
-                                <tr class="text-danger fw-bold">
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $product->name }}</td>
-                                    <td>{{ $product->category->name ?? 'N/A' }}</td>
-                                    <td>{{ $product->manufacturer }}</td>
-                                    <td>{{ $product->stock_quantity }}</td>
-                                    <td>{{ $product->min_stock_level }}</td>
-                                    <td>
-                                        <a href="#" class="btn btn-primary btn-sm">
-                                            <i class="bi bi-cart-plus"></i> Restock
-                                        </a>
-                                    </td>
-                                </tr>
-                                @endforeach
+                            @foreach($lowStockProducts as $product)
+                            <tr class="text-danger fw-bold">
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $product->product_name }}</td>
+                                <td>{{ $product->category_name }}</td>
+                                <td>{{ $product->manufacturer ?? 'N/A' }}</td>
+                                <td>{{ $product->total_stock }}</td>
+                                <td>{{ $product->min_stock_level }}</td>
+                                <td>
+                                    {{--<a href="#" class="btn btn-primary btn-sm" >
+                                        <i class="bi bi-cart-plus"></i> Restock
+                                    </a>--}}
+                                </td>
+                            </tr>
+                            @endforeach
+
                             </tbody>
                         </table>
                     </div>
@@ -70,4 +72,6 @@
         <!-- End Low Stock Table -->
     </div>
 </section>
+
+</div><!-- end of container -->
 @endsection

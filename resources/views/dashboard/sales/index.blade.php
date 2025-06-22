@@ -75,11 +75,11 @@
 
             <div class="modal-body">
                 <div class="mb-3">
-                    <label for="purchase_id_{{ $sale->id }}" class="form-label">Purchase</label>
+                    <label for="purchase_id_{{ $sale->id }}" class="form-label">Product</label>
                     <select name="purchase_id" id="purchase_id_{{ $sale->id }}" class="form-control" required>
                         @foreach($purchases as $purchase)
                             <option value="{{ $purchase->id }}" {{ $sale->purchase_id == $purchase->id ? 'selected' : '' }}>
-                                {{ $purchase->product->name }} - Qty: {{ $purchase->quantity }} - Price: {{ $purchase->unit_price }}
+                                {{ ucfirst($purchase->product->name) }}  - Qty: {{ $purchase->quantity_bought }} - Price: {{ number_format($purchase->unit_price,2) }}
                             </option>
                         @endforeach
                     </select>

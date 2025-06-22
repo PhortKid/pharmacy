@@ -100,7 +100,7 @@ class UserManagementController extends Controller
             'lastname'     => ['required', 'string', 'min:2', 'max:50', 'regex:/^[a-zA-Z\s]+$/'],
             'phone_number' => ['required', 'string', 'regex:/^0[67][0-9]{8}$/', "unique:users,phone,$id"],
             'email'        => ['required', 'email', 'max:100', "unique:users,email,$id"],
-            'role'         => ['required', 'string', 'in:pharmacy_owner,staff'],
+            'role'         => ['required', 'string'],
         ]);
     
         $user = User::findOrFail($id);

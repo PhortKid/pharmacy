@@ -133,7 +133,7 @@
         </ul>
       </li>--}}
 
-{{--
+
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#components-nav5" data-bs-toggle="collapse" href="#">
           <i class="bi bi-menu-button-wide"></i><span>Supplier & Purchase Management</span><i class="bi bi-chevron-down ms-auto"></i>
@@ -144,7 +144,7 @@
               <i class="bi bi-circle"></i><span> Supplier Management</span>
             </a>
           </li>  
-          <li>
+     {{--   <li>
             <a href="/payments">
               <i class="bi bi-circle"></i><span> Supplier Payment</span>
             </a>
@@ -154,11 +154,11 @@
             <a href="/purchases">
               <i class="bi bi-circle"></i><span> Purchase</span>
             </a>
-          </li>  
+          </li>  --}}   
         </ul>
       </li>
       
-      --}}
+     
 
      
 
@@ -167,7 +167,7 @@
       <li class="nav-item">
         <a class="nav-link collapsed" href="/suppliers">
           <i class="bi bi-person"></i>
-          <span>Suppliers</span>
+          <span>Logs</span>
         </a>
       </li><!-- End Profile Page Nav -->
       

@@ -1,7 +1,7 @@
 @extends('dash_layout.app')
 
 @section('content')
-
+<div class="container mb-5">
 <div class="row mb-3">
         <div class="col-md-4">
             <form method="GET" action="{{ route('stock.report') }}">
@@ -157,5 +157,5 @@
         </div>
     </div>
 
-
+    </div>
 @endsection

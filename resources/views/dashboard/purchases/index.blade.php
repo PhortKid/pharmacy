@@ -4,6 +4,7 @@
 @section('module', 'Management')
 
 @section('content')
+<div class="container mb-5">
 <section class="section">
     <div class="row">
         <div class="col-lg-12">
@@ -89,7 +90,7 @@
                     <select id="product_id_{{ $purchase->id }}" name="product_id" class="form-control" required>
                         <option value="">-- Select Product --</option>
                         @foreach($products as $product)
-                            <option value="{{ $product->id }}" {{ $purchase->product_id == $product->id ? 'selected' : '' }}>{{ $product->name }}</option>
+                            <option value="{{ $product->id }}" {{ $purchase->product_id == $product->id ? 'selected' : '' }}>{{ ucfirst($product->name) }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -191,6 +192,8 @@
 </div>
 @endforeach
 
+
+</div><!-- End of container -->
 <!-- JavaScript for Auto-calculation -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {

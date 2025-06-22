@@ -16,7 +16,7 @@
                         <option value="">-- Select Purchase --</option>
                         @foreach($purchases as $purchase)
                             <option value="{{ $purchase->id }}">
-                                {{ $purchase->product->name }} (Qty: {{ $purchase->quantity }}, Price: {{ number_format($purchase->unit_price, 2) }})
+                                {{ ucfirst($purchase->product->name) }} (Qty: {{ $purchase->quantity_bought }}, Price: {{ number_format($purchase->unit_price, 2) }})
                             </option>
                         @endforeach
                     </select>

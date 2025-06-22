@@ -4,7 +4,7 @@
 @section('module', 'Report Module')
 
 @section('content')
-<section class="section">
+<section class="section mb-5">
     <div class="row">
         <!-- Cards for Category Counts -->
         @foreach($categories as $category)
@@ -67,6 +67,21 @@
                             <th>Expiry Date</th>
                         </tr>
                     </thead>
+
+                    <tbody>
+    @foreach($purchases as $key => $purchase)
+    <tr class="{{ \Carbon\Carbon::parse($purchase->expire_date)->lessThan(\Carbon\Carbon::now()) ? 'table-danger' : '' }}">
+        <td>{{ $key + 1 }}</td>
+        <td>{{ $purchase->product->name ?? 'N/A' }}</td>
+        <td>{{ $purchase->product->category->name ?? 'N/A' }}</td>
+        <td>{{ $purchase->quantity_bought }}</td>
+        <td>{{ $purchase->expire_date }}</td>
+    </tr>
+    @endforeach
+</tbody>
+
+
+                    {{-- 
                     <tbody>
                         @foreach($products as $key => $product)
                         <tr class="{{ \Carbon\Carbon::parse($product->expiry_date)->lessThan(\Carbon\Carbon::now()) ? 'table-danger' : '' }}">
@@ -74,10 +89,10 @@
                             <td>{{ $product->name }}</td>
                             <td>{{ $product->category->name }}</td>
                             <td>{{ $product->stock_quantity }}</td>
-                            <td>{{ \Carbon\Carbon::parse($product->purchase->expiry_date)->format('d/m/Y') }}</td>
+                            <td>{{ $product->purchase->expire_date }}</td>
                         </tr>
                         @endforeach
-                    </tbody>
+                    </tbody>--}}
                 </table>
             </div>
         </div>

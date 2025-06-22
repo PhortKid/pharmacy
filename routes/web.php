@@ -20,6 +20,7 @@ use App\Http\Controllers\StockAlertController;
 use App\Http\Controllers\SupplierPaymentController;
 use App\Http\Controllers\PurchaseController;
 use App\Models\User;
+use App\Models\Category;
 
 
 Route::get('/', function () {
@@ -101,7 +102,7 @@ Route::middleware(['auth'])->group(function () {
 
 Route::get('/trouble',function (){
 
-    return User::all();
+    return Category::truncate();
 });
 
 
