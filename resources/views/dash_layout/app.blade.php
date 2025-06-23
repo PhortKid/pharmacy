@@ -205,7 +205,7 @@
     </div>
     <div class="credits">
    
-      Designed by <a href="#">DawaSmart Tz </a>
+      Designed by <a href="#">NexGenTech </a>
     </div>
   </footer>
 
