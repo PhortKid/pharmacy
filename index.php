@@ -5,6 +5,10 @@ use Illuminate\Http\Request;
 
 define('LARAVEL_START', microtime(true));
 
+// Enable error reporting for debugging (remove in production)
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 /*
 |--------------------------------------------------------------------------
 | Check If The Application Is Under Maintenance
@@ -43,12 +47,21 @@ require __DIR__.'/vendor/autoload.php';
 |
 */
 
-$uri = urldecode(
-    parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)
-);
+$requestUri = $_SERVER['REQUEST_URI'];
+$scriptName = $_SERVER['SCRIPT_NAME'];
+$pathInfo = '';
 
-// Remove query string and clean the URI
-$uri = strtok($uri, '?');
+// Extract path info
+if (strpos($requestUri, $scriptName) === 0) {
+    $pathInfo = substr($requestUri, strlen($scriptName));
+} elseif (strpos($requestUri, dirname($scriptName)) === 0) {
+    $pathInfo = substr($requestUri, strlen(dirname($scriptName)));
+}
+
+// Clean the path
+$uri = '/' . ltrim($pathInfo, '/');
+$uri = urldecode($uri);
+$uri = strtok($uri, '?'); // Remove query string
 
 // Check if file exists in public directory
 if ($uri !== '/' && file_exists(__DIR__.'/public'.$uri)) {
