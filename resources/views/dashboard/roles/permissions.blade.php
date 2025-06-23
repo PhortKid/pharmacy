@@ -1,9 +1,9 @@
-@extends('dashboard_layout.app')
+@extends('dash_layout.app')
 
 @section('content')
 
 @if(Auth::check() && Auth::user()->role && Auth::user()->hasPermission('users_role_permission'))
-<div class="container">
+<div class="container mb-5">
 <h2 class="h4 fw-bold mb-4">Manage Permissions for Role: {{ $role->name }}</h2>
 
 <form action="{{ route('roles.permissions.update', $role->id) }}" method="POST">
@@ -42,5 +42,5 @@
 <div class="alert alert-warning">
      Access Denied Contact Adminstrator For Assistance
 </div>
-@endif
+@endif 
 @endsection

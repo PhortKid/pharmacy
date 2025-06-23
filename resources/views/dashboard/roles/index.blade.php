@@ -1,9 +1,9 @@
-@extends('dashboard_layout.app')
+@extends('dash_layout.app')
 
 @section('content')
 
 @if(Auth::check() && Auth::user()->role && Auth::user()->hasPermission('users_management_roles'))
-<div class="container">
+<div class="container mb-4">
     <h2>Roles List</h2>
     <a href="{{ route('roles.create') }}" class="btn btn-primary mb-3">Add Role</a>
 
@@ -30,10 +30,10 @@
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                         </form> 
-                        @if(Auth::check() && Auth::user()->role && Auth::user()->hasPermission('users_role_permission'))
+                       
                         |
                         <a href="/roles/{{$role->id}}/permissions" class="btn btn-primary btn-sm">Permission</a>
-                        @endif
+                        
                     </td>
                 </tr>
             @endforeach
@@ -46,6 +46,6 @@
 <div class="alert alert-warning">
      Access Denied Contact Adminstrator For Assistance
 </div>
-@endif
+@endif 
 
 @endsection

@@ -45,7 +45,7 @@
 </style>               
 
   <!-- Template Main CSS File -->
-  <link href="assets/css/style.css" rel="stylesheet">
+  <link href="{{ asset('assets/css/style.css')}}" rel="stylesheet">
 
 </head>
 
@@ -118,7 +118,7 @@
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
             <li class="dropdown-header">
               <h6>{{ ucfirst(Auth::user()->firstname) }} {{ ucfirst(Auth::user()->lastname) }} ✅ </h6>
-              <span>{{ ucfirst(Auth::user()->role) }}</span>
+              <span>{{ ucfirst(Auth::user()->role->name) }}</span>
             </li>
             <li>
               <hr class="dropdown-divider">

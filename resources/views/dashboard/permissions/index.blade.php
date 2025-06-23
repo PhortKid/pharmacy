@@ -1,9 +1,10 @@
 
-@extends('dashboard_layout.app')
+@extends('dash_layout.app')
 
 @section('content')
+
 @if(Auth::check() && Auth::user()->role && Auth::user()->hasPermission('permission_management'))
-<div class="container">
+<div class="container mb-5">
     <h3 class="mb-4 d-flex justify-content-between align-items-center">
         Manage Permissions
         <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addPermissionModal">
@@ -71,16 +72,12 @@
                     <select name="module" id="module" class="form-select" required>
                         <option value="">-- Select Module --</option>
                         <option value="Users">Users</option>
-                        <option value="Rooms">Rooms</option>
-                        <option value="Reservations">Reservations</option>
-                        <option value="Income">Income</option>
-                        <option value="Expense">Expense</option>
-                        <option value="Financial Report">Financial Report</option>
-                        <option value="Salary">Salary</option>
-                        <option value="Message">Message</option>
-                        <option value="Projection">Projection</option>
-                        <option value="Assets">Assets</option>
-                        <option value="Others">Others</option>
+                        <option value="Product">Product</option>
+                        <option value="Purchase">Purchase</option>
+                        <option value="Sales">Sales</option>
+                        <option value="Supplier">Supplier</option>
+                        <option value="Report">Report</option>
+                       
                     </select>
                 </div>
                 <div class="mb-3">
@@ -101,7 +98,7 @@
 <div class="alert alert-warning">
      Access Denied Contact Adminstrator For Assistance
 </div>
-@endif
+@endif 
 
 @endsection
 

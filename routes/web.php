@@ -57,8 +57,8 @@ Route::put('/sales/{id}', [SalesController::class, 'update'])->name('sales.updat
 Route::delete('/sales/{id}', [SalesController::class, 'destroy'])->name('sales.destroy');
 Route::get('/reports_stock', [StockReportController::class, 'index'])->name('stock.report');
 Route::get('/reports_expiry', [ExpiryReportController::class, 'index'])->name('expiry.report');
-Route::get('/waste', [DisposalProductController::class, 'index'])->name('waste.index');
-Route::post('/waste', [DisposalProductController::class, 'store'])->name('waste.store');
+Route::get('/disposal', [DisposalProductController::class, 'index'])->name('waste.index');
+Route::post('/disposal', [DisposalProductController::class, 'store'])->name('waste.store');
 Route::get('/product-report', [ProductReportController::class, 'index'])->name('product.report');
 
 
@@ -122,9 +122,9 @@ Route::get('/trouble',function (){
 
 
 Route::get('/aadd_demo_user',function(){
- /*   Role::create([
+ $role=  Role::create([
         'name'=>'admin',
-       ]);*/
+       ]);
 
    User::create([
     'firstname'=>'phort',
@@ -132,7 +132,7 @@ Route::get('/aadd_demo_user',function(){
     'email'=>'middlephort@gmail.com',
     'phone'=>'+255787753939',
     'password'=> Hash::make('11111111'),
-    'role_id'=>'1',
+    'role_id'=>$role->id,
    ]);
 
     return 'useer added';
