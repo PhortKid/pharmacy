@@ -24,6 +24,7 @@ use App\Models\Role;
 use App\Models\Category;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
+use App\Models\Permission;
 
 
 Route::get('/', function () {
@@ -120,6 +121,11 @@ Route::get('/trouble',function (){
     return Category::truncate();
 });
 
+Route::get('/add_manual_permission',function (){
+
+    return dd(Permission::all());
+});
+
 
 Route::get('/aadd_demo_user',function(){
  $role=  Role::create([
@@ -137,5 +143,3 @@ Route::get('/aadd_demo_user',function(){
 
     return 'useer added';
 });
-
-//kelvin

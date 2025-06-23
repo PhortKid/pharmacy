@@ -42,6 +42,15 @@ class SalesController extends Controller
         Sale::create($validated);
     
         $product->save();
+
+        $decrease_purchase=Purchase::find($request->purchase_id);
+        if($decrease_purchase->quantity_bought<$request->quantity_sold){
+           
+
+            return redirect()->back()->with('danger', 'Sale error');
+        }
+           $decrease_purchase->quantity_bought=$decrease_purchase->quantity_bought-$request->quantity_sold;
+           $decrease_purchase->save();
     
         return redirect()->back()->with('success', 'Sale recorded successfully.');
     }

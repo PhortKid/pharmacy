@@ -42,6 +42,15 @@
     background-color: #ffcccc;
 }
 
+
+.swal2-container {
+  z-index: 2000 !important;
+}
+
+.z-top {
+  z-index: 2000 !important;
+}
+
 </style>               
 
   <!-- Template Main CSS File -->
