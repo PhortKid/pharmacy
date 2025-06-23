@@ -83,7 +83,7 @@
             </div>
         </div>
 
-        <!-- Sales & Revenue Chart -->
+        <!-- Sales & Revenue Chart 
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
@@ -91,113 +91,16 @@
                     <canvas id="salesChart"></canvas>
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
 </section>
 
 <!-- Chart.js Script -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-{{--
-<script>
-    const ctx = document.getElementById('salesChart').getContext('2d');
 
-    const salesChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: @json($salesChart->pluck('month')),
-            datasets: [{
-                label: 'Revenue (TZS)',
-                data: @json($salesChart->pluck('revenue')),
-                borderColor: 'rgba(75, 192, 192, 1)',
-                backgroundColor: 'rgba(75, 192, 192, 0.3)',
-                fill: true,
-                tension: 0.3
-            }]
-        },
-        options: {
-            responsive: true,
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    title: {
-                        display: true,
-                        text: 'Revenue (TZS)'
-                    }
-                },
-                x: {
-                    title: {
-                        display: true,
-                        text: 'Month'
-                    }
-                }
-            }
-        }
-    });
-</script>--}}
 
-{{-- 
-<script>
-    const ctx = document.getElementById('salesChart').getContext('2d');
 
-    const salesChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: @json($salesChart->pluck('date')),
-            datasets: [
-                {
-                    label: 'Total Sales',
-                    data: @json($salesChart->pluck('total_sold')),
-                    backgroundColor: 'rgba(54, 162, 235, 0.6)',
-                    borderColor: 'rgba(54, 162, 235, 1)',
-                    borderWidth: 1,
-                    yAxisID: 'ySales'
-                },
-                {
-                    label: 'Total Revenue',
-                    data: @json($salesChart->pluck('total_revenue')),
-                    type: 'line',
-                    backgroundColor: 'rgba(75, 192, 192, 0.6)',
-                    borderColor: 'rgba(75, 192, 192, 1)',
-                    borderWidth: 2,
-                    yAxisID: 'yRevenue'
-                }
-            ]
-        },
-        options: {
-            responsive: true,
-            interaction: {
-                mode: 'index',
-                intersect: false
-            },
-            stacked: false,
-            scales: {
-                ySales: {
-                    type: 'linear',
-                    display: true,
-                    position: 'left',
-                    title: {
-                        display: true,
-                        text: 'Quantity Sold'
-                    },
-                    beginAtZero: true
-                },
-                yRevenue: {
-                    type: 'linear',
-                    display: true,
-                    position: 'right',
-                    beginAtZero: true,
-                    grid: {
-                        drawOnChartArea: false
-                    },
-                    title: {
-                        display: true,
-                        text: 'Revenue (TZS)'
-                    }
-                }
-            }
-        }
-    });
-</script>
---}}
+
+
 
 @endsection

@@ -45,5 +45,21 @@ class User extends Authenticatable
     }
 
 
-   
+    public function myrole()
+    {
+        return $this->belongsTo(Role::class, 'role_id');
+    }
+    //User.php
+    public function role()
+    {
+        return $this->belongsTo(Role::class, 'role_id');
+    }
+
+    public function hasPermission($permissionName)
+    {
+        return $this->role &&
+               $this->role->permissions->contains(function($p) use ($permissionName) {
+                   return $p->name === $permissionName && $p->pivot->allowed;
+               });
+    }
 }

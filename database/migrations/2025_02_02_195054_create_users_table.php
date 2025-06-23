@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('phone');//->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->enum('role', ['owner','pharmacist', 'procurer','cashier'])->default('cashier');
+            $table->foreignId('role_id')->nullable()->constrained()->onDelete('set null');
             $table->rememberToken();
             $table->timestamps();
         });

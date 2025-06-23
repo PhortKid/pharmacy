@@ -20,7 +20,10 @@ use App\Http\Controllers\StockAlertController;
 use App\Http\Controllers\SupplierPaymentController;
 use App\Http\Controllers\PurchaseController;
 use App\Models\User;
+use App\Models\Role;
 use App\Models\Category;
+use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\RoleController;
 
 
 Route::get('/', function () {
@@ -67,6 +70,18 @@ Route::resource('suppliers', SupplierController::class);
 Route::resource('payments', SupplierPaymentController::class);
 Route::resource('purchases', PurchaseController::class);
 
+
+//roles 
+Route::get('/roles', [RoleController::class, 'index'])->name('roles.index');
+Route::get('/roles/create', [RoleController::class, 'create'])->name('roles.create');
+Route::post('/roles/store', [RoleController::class, 'store'])->name('roles.store');
+Route::delete('/roles/{id}', [RoleController::class, 'destroy'])->name('roles.destroy');
+
+
+Route::resource('permissions', PermissionController::class)->only(['index', 'store', 'destroy']);
+Route::get('/roles/{id}/permissions', [RoleController::class, 'editPermissions'])->name('roles.permissions.edit');
+Route::put('/roles/{id}/permissions', [RoleController::class, 'updatePermissions'])->name('roles.permissions.update');
+
 });//end of auth 
 
 
@@ -107,6 +122,9 @@ Route::get('/trouble',function (){
 
 
 Route::get('/aadd_demo_user',function(){
+ /*   Role::create([
+        'name'=>'admin',
+       ]);*/
 
    User::create([
     'firstname'=>'phort',
@@ -114,7 +132,7 @@ Route::get('/aadd_demo_user',function(){
     'email'=>'middlephort@gmail.com',
     'phone'=>'+255787753939',
     'password'=> Hash::make('11111111'),
-    'role'=>'owner',
+    'role_id'=>'1',
    ]);
 
     return 'useer added';
