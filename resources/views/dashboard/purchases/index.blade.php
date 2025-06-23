@@ -196,5 +196,20 @@
 </div><!-- End of container -->
 
 
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const quantityInput = document.getElementById('quantity_bought');
+        const unitPriceInput = document.getElementById('unit_price');
+        const totalPurchaseInput = document.getElementById('total_purchase');
 
+        function updateTotalPurchase() {
+            const qty = parseFloat(quantityInput.value) || 0;
+            const price = parseFloat(unitPriceInput.value) || 0;
+            totalPurchaseInput.value = (qty * price).toFixed(2);
+        }
+
+        quantityInput.addEventListener('input', updateTotalPurchase);
+        unitPriceInput.addEventListener('input', updateTotalPurchase);
+    });
+</script>
 @endsection

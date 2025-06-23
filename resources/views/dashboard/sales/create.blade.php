@@ -34,11 +34,11 @@
                     <label for="total_price" class="form-label">Total Price</label>
                     <input type="number" step="0.01" name="total_price" id="total_price" class="form-control" required>
                 </div>
-
+{{-- 
                 <div class="mb-3">
                     <label for="receipt_no" class="form-label">Receipt No (optional)</label>
                     <input type="text" name="receipt_no" id="receipt_no" class="form-control">
-                </div>
+                </div>--}}
             </div>
 
             <div class="modal-footer">

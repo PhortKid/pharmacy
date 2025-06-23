@@ -21,10 +21,13 @@ use App\Http\Controllers\SupplierPaymentController;
 use App\Http\Controllers\PurchaseController;
 use App\Models\User;
 use App\Models\Role;
+use App\Models\Sale;
 use App\Models\Category;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
 use App\Models\Permission;
+use App\Http\Controllers\QrCodeController;
+
 
 
 Route::get('/', function () {
@@ -91,22 +94,21 @@ Route::put('/roles/{id}/permissions', [RoleController::class, 'updatePermissions
 
 
 
-Route::get('/testi', function(){
-    $agent = new Agent();
-    
-    $browser = $agent->browser();
-    $platform = $agent->platform();
-    $device = $agent->device();
-    $ip = \Request::ip();
+Route::get('receipt/{id}',function(Request $request, $id){
+    $customer=Sale::where('receipt_no',$id)->first();
 
-    return response()->json([
-        'browser' => $browser,
-        'platform' => $platform,
-        'device' => $device
-    ]);
+    if(!$customer){
+        return 'Not Found';
+    }
+
+    $receiptUrl = url("/receipt/{$customer->receipt_no}");
+    $qrCode = QrCode::size(200)
+        ->backgroundColor(255, 255, 255)
+        ->margin(1)
+        ->generate($receiptUrl);
+
+    return view('dashboard.reports.thermal_receipt',compact('customer','qrCode'));
 });
-
-
 
 
 Route::middleware(['auth'])->group(function () {
@@ -118,7 +120,7 @@ Route::middleware(['auth'])->group(function () {
 
 Route::get('/trouble',function (){
 
-    return Category::truncate();
+    return Sale::truncate();
 });
 
 Route::get('/add_manual_permission',function (){

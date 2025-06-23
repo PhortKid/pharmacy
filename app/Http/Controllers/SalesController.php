@@ -27,21 +27,23 @@ class SalesController extends Controller
      */
     public function store(Request $request)
     {
+
+        function generateStrongPassword($length = 4) {
+            
+            $chars = '0123456789';
+            return substr(str_shuffle(str_repeat($chars, ceil($length/strlen($chars)))), 0, $length);
+        }
+        
+      
+
         $validated = $request->validate([
             'purchase_id' => 'required|exists:purchases,id',
             'quantity_sold' => 'required|integer|min:1',
             'total_price' => 'required|numeric|min:0',
-            'receipt_no' => 'nullable|string|max:255',
+            'receipt_no' => 'nullable',
         ]);
     
-        $purchase = Purchase::with('product')->findOrFail($validated['purchase_id']);
-        $product = $purchase->product;
-    
-        $validated['user_id'] = Auth::id();
-    
-        Sale::create($validated);
-    
-        $product->save();
+  
 
         $decrease_purchase=Purchase::find($request->purchase_id);
         if($decrease_purchase->quantity_bought<$request->quantity_sold){
@@ -49,6 +51,30 @@ class SalesController extends Controller
 
             return redirect()->back()->with('danger', 'Sale error');
         }
+
+
+
+
+
+                $purchase = Purchase::with('product')->findOrFail($validated['purchase_id']);
+                $product = $purchase->product;
+            
+                $validated['user_id'] = Auth::id();
+            
+                Sale::create(
+                    [
+                        'purchase_id'=>$request->purchase_id,
+                        'quantity_sold'=>$request->quantity_sold,
+                        'total_price' =>$request->total_price,
+                        'receipt_no'=> 'DawaSmart-'. generateStrongPassword(4),
+                        'user_id'=>Auth::id(),
+                    
+                    ]
+                );
+            
+                $product->save();
+
+
            $decrease_purchase->quantity_bought=$decrease_purchase->quantity_bought-$request->quantity_sold;
            $decrease_purchase->save();
     

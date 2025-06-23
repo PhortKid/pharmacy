@@ -41,6 +41,9 @@
                                     <td>{{ $sale->receipt_no ?? '-' }}</td>
                                     <td>{{ $sale->created_at->format('d/m/Y') }}</td>
                                     <td>
+                                        <a href="/receipt/{{$sale->receipt_no}}" class="btn btn-secondary btn-sm" >
+                                            <i class="bi bi-receipt"></i> Receipt
+                                        </a>
                                         <a href="#" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editSaleModal{{ $sale->id }}">
                                             <i class="bi bi-pencil"></i> Edit
                                         </a>
@@ -94,11 +97,11 @@
                     <label for="total_price_{{ $sale->id }}" class="form-label">Total Price</label>
                     <input type="number" step="0.01" name="total_price" id="total_price_{{ $sale->id }}" class="form-control" value="{{ $sale->total_price }}" required>
                 </div>
-
+                    {{-- 
                 <div class="mb-3">
                     <label for="receipt_no_{{ $sale->id }}" class="form-label">Receipt No (optional)</label>
                     <input type="text" name="receipt_no" id="receipt_no_{{ $sale->id }}" class="form-control" value="{{ $sale->receipt_no }}">
-                </div>
+                </div>--}}
             </div>
 
             <div class="modal-footer">
