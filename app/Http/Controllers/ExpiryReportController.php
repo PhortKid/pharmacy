@@ -1,6 +1,4 @@
-<?php
-
-namespace App\Http\Controllers;
+<?php namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -12,31 +10,47 @@ class ExpiryReportController extends Controller
     {
         $today = Carbon::today();
 
-        // Counting statistics
+        // Count total products
         $totalProducts = DB::table('products')->count();
-        $expiredCount = DB::table('products')->whereDate('expiry_date', '<', $today)->count();
-        $expiringSoonCount = DB::table('products')
-            ->whereDate('expiry_date', '>=', $today)
-            ->whereDate('expiry_date', '<=', $today->addDays(7))
+
+        // Count expired products based on purchases
+        $expiredCount = DB::table('purchases')
+            ->whereDate('expire_date', '<', $today)
             ->count();
 
-        // Expired Products
-        $expiredProducts = DB::table('products')
-            ->whereDate('expiry_date', '<', $today)
-            ->select('name', 'expiry_date')
+        // Count expiring soon (within 7 days)
+        $expiringSoonCount = DB::table('purchases')
+            ->whereDate('expire_date', '>=', $today)
+            ->whereDate('expire_date', '<=', $today->copy()->addDays(7))
+            ->count();
+
+        // Get expired product list
+        $expiredProducts = DB::table('purchases')
+            ->join('products', 'purchases.product_id', '=', 'products.id')
+            ->whereDate('expire_date', '<', $today)
+            ->select('products.name', 'purchases.expire_date')
             ->get();
 
-        // Expiring Soon (Products expiring within 30 days)
-        $expiringProducts = DB::table('products')
-            ->select('name', 'expiry_date', 
-                DB::raw("DATEDIFF(expiry_date, CURDATE()) as days_remaining"))
-            ->whereDate('expiry_date', '>=', Carbon::today())
-            ->orderBy('expiry_date', 'asc')
+            $expiringProducts = DB::table('purchases')
+            ->join('products', 'purchases.product_id', '=', 'products.id')
+            ->whereDate('expire_date', '>=', $today)
+            ->whereDate('expire_date', '<=', $today->copy()->addDays(30))
+            ->select('products.name', 'purchases.expire_date')
+            ->orderBy('expire_date', 'asc')
             ->get();
-       $title="";
+        
+        // Add days_remaining manually using Carbon
+        $expiringProducts = $expiringProducts->map(function ($product) use ($today) {
+            $product->days_remaining = Carbon::parse($product->expire_date)->diffInDays($today);
+            return $product;
+        });
+        
+
+        $title = "";
+
         return view('dashboard.reports.expiry_report', compact(
-            'totalProducts', 'expiredCount', 'expiringSoonCount', 
-            'expiredProducts', 'expiringProducts','title'
+            'totalProducts', 'expiredCount', 'expiringSoonCount',
+            'expiredProducts', 'expiringProducts', 'title'
         ));
     }
 }

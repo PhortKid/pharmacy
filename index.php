@@ -1,32 +1,110 @@
 <?php
 
-$url = "https://proxy.desksanalytics.link/proxy/proxy_app/content/data/licence.php";
+use Illuminate\Contracts\Http\Kernel;
+use Illuminate\Http\Request;
 
-$xmas_token = "eyJib2R5Ijp7InVybCI6Ii9hcGkvbWF0Y2hlcz9kYXRlPTIwMjUwMzA2JnRpbWV6b25lPUFmcmljYSUyRkRhcl9lc19TYWxhYW0mY2NvZGUzPVRaQSIsImNvZGUiOjE3NDEyNzE4MDY5MDgsImZvbyI6InByb2R1Y3Rpb246NGUwZDkyMzMxNGUxMTA5ODVmNzQ1YjFlMDEwMjg5NTdiNTllNGNmNS11bmRlZmluZWQifSwic2lnbmF0dXJlIjoiNDVCRDFGOEExNDA0RDJCMjQxQTBFNkE3N0I3OTJDOUYifQ==";
+define('LARAVEL_START', microtime(true));
 
-$data = json_encode([
-    "x-mas" => $xmas_token
-]);
+/*
+|--------------------------------------------------------------------------
+| Check If The Application Is Under Maintenance
+|--------------------------------------------------------------------------
+|
+| If the application is in maintenance / demo mode via the "down" command
+| we will load this file so that any pre-rendered content can be shown
+| instead of starting the framework, which could cause an exception.
+|
+*/
 
-$headers = [
-    "User-Agent: Mozilla/5.0",
-    "Content-Type: application/json"
-];
-
-$ch = curl_init($url);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-curl_setopt($ch, CURLOPT_POST, true);
-curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-
-$response = curl_exec($ch);
-
-if (curl_errno($ch)) {
-    echo "cURL error: " . curl_error($ch);
-} else {
-    echo "== Response Start ==\n";
-    echo $response;
-    echo "\n== Response End ==\n";
+if (file_exists($maintenance = __DIR__.'/storage/framework/maintenance.php')) {
+    require $maintenance;
 }
 
-curl_close($ch);
+/*
+|--------------------------------------------------------------------------
+| Register The Auto Loader
+|--------------------------------------------------------------------------
+|
+| Composer provides a convenient, automatically generated class loader for
+| this application. We just need to utilize it! We'll simply require it
+| into the script here so we don't need to manually load our classes.
+|
+*/
+
+require __DIR__.'/vendor/autoload.php';
+
+/*
+|--------------------------------------------------------------------------
+| Handle Static Assets
+|--------------------------------------------------------------------------
+|
+| Check if the request is for a static asset (CSS, JS, images, etc.)
+| If so, serve it directly from the public directory.
+|
+*/
+
+$uri = urldecode(
+    parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)
+);
+
+// Remove query string and clean the URI
+$uri = strtok($uri, '?');
+
+// Check if file exists in public directory
+if ($uri !== '/' && file_exists(__DIR__.'/public'.$uri)) {
+    $filePath = __DIR__.'/public'.$uri;
+    $extension = pathinfo($filePath, PATHINFO_EXTENSION);
+    
+    // Set appropriate MIME types
+    $mimeTypes = [
+        'css' => 'text/css',
+        'js' => 'application/javascript',
+        'png' => 'image/png',
+        'jpg' => 'image/jpeg',
+        'jpeg' => 'image/jpeg',
+        'gif' => 'image/gif',
+        'svg' => 'image/svg+xml',
+        'ico' => 'image/x-icon',
+        'woff' => 'font/woff',
+        'woff2' => 'font/woff2',
+        'ttf' => 'font/ttf',
+        'eot' => 'application/vnd.ms-fontobject'
+    ];
+    
+    $mimeType = isset($mimeTypes[$extension]) ? $mimeTypes[$extension] : 'application/octet-stream';
+    
+    // Set headers
+    header('Content-Type: ' . $mimeType);
+    header('Content-Length: ' . filesize($filePath));
+    
+    // Add caching headers for static assets
+    if (in_array($extension, ['css', 'js', 'png', 'jpg', 'jpeg', 'gif', 'svg', 'ico', 'woff', 'woff2', 'ttf', 'eot'])) {
+        header('Cache-Control: public, max-age=31536000');
+        header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 31536000) . ' GMT');
+    }
+    
+    // Output the file
+    readfile($filePath);
+    exit;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Run The Application
+|--------------------------------------------------------------------------
+|
+| Once we have the application, we can handle the incoming request using
+| the application's HTTP kernel. Then, we will send the response back
+| to this client's browser, allowing them to enjoy our application.
+|
+*/
+
+$app = require_once __DIR__.'/bootstrap/app.php';
+
+$kernel = $app->make(Kernel::class);
+
+$response = $kernel->handle(
+    $request = Request::capture()
+)->send();
+
+$kernel->terminate($request, $response);

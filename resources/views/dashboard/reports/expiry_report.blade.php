@@ -4,7 +4,7 @@
 @section('module', 'Reports')
 
 @section('content')
-<section class="section">
+<section class="section mb-5">
     <div class="row">
         <!-- Cards for Summary -->
         <div class="col-md-4">
@@ -108,7 +108,7 @@
                                     <tr class="{{ $product->days_remaining <= 7 ? 'bg-danger text-white' : '' }}">
                                         <td>{{ $index + 1 }}</td>
                                         <td>{{ $product->name }}</td>
-                                        <td>{{ \Carbon\Carbon::parse($product->expiry_date)->format('d/m/Y') }}</td>
+                                        <td class="text-danger">{{ \Carbon\Carbon::parse($product->expire_date)->format('d/m/Y') }}</td>
                                         <td>{{ $product->days_remaining }}</td>
                                     </tr>
                                 @endforeach

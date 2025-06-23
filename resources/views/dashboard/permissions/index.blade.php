@@ -77,6 +77,7 @@
                         <option value="Sales">Sales</option>
                         <option value="Supplier">Supplier</option>
                         <option value="Report">Report</option>
+                        <option value="Disposal">Disposal</option>
                        
                     </select>
                 </div>

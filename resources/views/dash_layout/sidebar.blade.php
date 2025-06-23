@@ -153,22 +153,26 @@
       @endif
       
       
-      @if(Auth::check() && Auth::user()->role && Auth::user()->hasPermission('disposal_management') )
+      @if(Auth::check() && Auth::user()->role && Auth::user()->hasPermission('disposal_management') || Auth::user()->hasPermission('expire_product'))
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#components-nav4" data-bs-toggle="collapse" href="#">
           <i class="bi bi-menu-button-wide"></i><span>Disposal Product</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <ul id="components-nav4" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-          <li>
+        @if(Auth::check() && Auth::user()->role && Auth::user()->hasPermission('disposal_management'))
+        <li>
             <a href="/disposal">
-              <i class="bi bi-circle"></i><span> Waste Management</span>
+              <i class="bi bi-circle"></i><span> Disposal</span>
             </a>
           </li>  
           <li>
+            @endif 
+            @if(Auth::check() &&  Auth::user()->hasPermission('expire_product'))
             <a href="/reports_expiry">
-              <i class="bi bi-circle"></i><span> Expiry</span>
+              <i class="bi bi-circle"></i><span> Expired Product</span>
             </a>
-          </li>  
+          </li> 
+          @endif 
         </ul>
       </li>
       @endif
