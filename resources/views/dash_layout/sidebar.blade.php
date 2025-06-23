@@ -182,8 +182,7 @@
     </li>
     @endif
 
-    <!-- Others -->
-    <li class="nav-heading">Others</li>
+
 
   </ul>
 </aside>
