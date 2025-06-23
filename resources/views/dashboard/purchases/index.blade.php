@@ -194,25 +194,7 @@
 
 
 </div><!-- End of container -->
-<!-- JavaScript for Auto-calculation -->
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Auto-calculate total purchase for each edit modal
-    @foreach($purchases as $purchase)
-    const unitPriceInput{{ $purchase->id }} = document.getElementById('unit_price_{{ $purchase->id }}');
-    const quantityInput{{ $purchase->id }} = document.getElementById('quantity_bought_{{ $purchase->id }}');
-    const totalInput{{ $purchase->id }} = document.getElementById('total_purchase_{{ $purchase->id }}');
 
-    function calculateTotal{{ $purchase->id }}() {
-        const unitPrice = parseFloat(unitPriceInput{{ $purchase->id }}.value) || 0;
-        const quantity = parseInt(quantityInput{{ $purchase->id }}.value) || 0;
-        totalInput{{ $purchase->id }}.value = (unitPrice * quantity).toFixed(2);
-    }
 
-    unitPriceInput{{ $purchase->id }}.addEventListener('input', calculateTotal{{ $purchase->id }});
-    quantityInput{{ $purchase->id }}.addEventListener('input', calculateTotal{{ $purchase->id }});
-    @endforeach
-});
-</script>
 
 @endsection

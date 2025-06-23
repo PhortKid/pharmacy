@@ -22,12 +22,12 @@
 
                     <div class="mb-3">
                         <label class="form-label">Quantity Bought</label>
-                        <input type="number" class="form-control" name="quantity_bought" min="1" required>
+                        <input type="number" class="form-control" name="quantity_bought" id="quantity_bought" min="1" required>
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label">Unit Price</label>
-                        <input type="number" step="0.01" class="form-control" name="unit_price" required>
+                        <input type="number" step="0.01" class="form-control" name="unit_price" id="unit_price" required>
                     </div>
 
                     <div class="mb-3">
@@ -37,7 +37,7 @@
 
                     <div class="mb-3">
                         <label class="form-label">Total Purchase</label>
-                        <input type="number" step="0.01" class="form-control" name="total_purchase" required>
+                        <input type="number" step="0.01" class="form-control" name="total_purchase" id="total_purchase" required>
                     </div>
 
                     <div class="mb-3">

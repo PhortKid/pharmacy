@@ -79,7 +79,7 @@
                     <select name="purchase_id" id="purchase_id_{{ $sale->id }}" class="form-control" required>
                         @foreach($purchases as $purchase)
                             <option value="{{ $purchase->id }}" {{ $sale->purchase_id == $purchase->id ? 'selected' : '' }}>
-                                {{ ucfirst($purchase->product->name) }}  - Qty: {{ $purchase->quantity_bought }} - Price: {{ number_format($purchase->unit_price,2) }}
+                                {{ ucfirst($purchase->product->name) }}  - Qty: {{ $purchase->quantity_bought }} - Price: {{ number_format($purchase->selling_price,2) }}
                             </option>
                         @endforeach
                     </select>
@@ -140,5 +140,27 @@
     </div>
 </div>
 @endforeach
+
+
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const purchaseSelect = document.getElementById('purchase_id');
+        const quantityInput = document.getElementById('quantity_sold');
+        const totalPriceInput = document.getElementById('total_price');
+
+        function updateTotalPrice() {
+            const selectedOption = purchaseSelect.options[purchaseSelect.selectedIndex];
+            const price = parseFloat(selectedOption.getAttribute('data-price')) || 0;
+            const quantity = parseInt(quantityInput.value) || 0;
+            totalPriceInput.value = (price * quantity).toFixed(2);
+        }
+
+        purchaseSelect.addEventListener('change', updateTotalPrice);
+        quantityInput.addEventListener('input', updateTotalPrice);
+    });
+</script>
+
 
 @endsection

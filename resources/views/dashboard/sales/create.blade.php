@@ -15,16 +15,19 @@
                     <select name="purchase_id" id="purchase_id" class="form-control" required>
                         <option value="">-- Select Purchase --</option>
                         @foreach($purchases as $purchase)
-                            <option value="{{ $purchase->id }}">
-                                {{ ucfirst($purchase->product->name) }} (Qty: {{ $purchase->quantity_bought }}, Price: {{ number_format($purchase->unit_price, 2) }})
+                            <option value="{{ $purchase->id }}" data-price="{{ $purchase->selling_price }}">
+                                {{ ucfirst($purchase->product->name) }} (Qty: {{ $purchase->quantity_bought }}, Price: {{ number_format($purchase->selling_price, 2) }})
                             </option>
                         @endforeach
+
                     </select>
                 </div>
 
                 <div class="mb-3">
                     <label for="quantity_sold" class="form-label">Quantity Sold</label>
                     <input type="number" name="quantity_sold" id="quantity_sold" class="form-control" min="1" required>
+                    
+
                 </div>
 
                 <div class="mb-3">
