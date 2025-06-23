@@ -10,5 +10,5 @@ class NotificationController extends Controller
     {
         $notifications = Notification::latest()->limit(5)->get();
         return view('dashboard.index', compact('notifications'));
-    }
+    } 
 }
