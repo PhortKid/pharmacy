@@ -28,6 +28,7 @@
                                     <th>Firstname</th>
                                     <th>Lastname</th>
                                     <th>Email</th>
+                                    <th>Role</th>
                                     <th colspan="2">Action</th>
                                 </tr>
                             </thead>
@@ -38,6 +39,7 @@
                                     <td>{{$user->firstname}}</td>
                                     <td>{{$user->lastname}}</td>
                                     <td>{{$user->email}}</td>
+                                    <td>{{ucfirst($user->role->name)}}</td>
                                     <td>
                                         <!-- Edit Button -->
                                         <a href="#" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editUser{{$user->id}}">

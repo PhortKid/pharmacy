@@ -31,12 +31,11 @@
 
                     <div class="mb-3">
                         <label for="role" class="form-label">Role</label>
-                        <select name="role" id="role" class="form-control">
+                        <select name="role_id" id="role" class="form-control">
                             <option value="">-- Select Role --</option>
-                            <option value="owner">Owner</option>
-                            <option value="pharmacist">Pharmacist</option>
-                            <option value="procurer">Procurer</option>
-                            <option value="cashier">Cashier</option>
+                            @foreach($roles as $role)
+                            <option value="{{$role->id}}">{{ucfirst($role->name)}}</option>
+                             @endforeach
                         </select>
                     </div>
 

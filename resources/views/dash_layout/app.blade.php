@@ -34,6 +34,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
   <style>
+
    #flasher-container-top-right {
     z-index: 10;
   }

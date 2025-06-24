@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\User;
+use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Flasher\Prime\FlasherInterface;
@@ -19,7 +20,8 @@ class UserManagementController extends Controller
     {
         $title="Dashboard | Users Management";
         $users=User::all();
-        return view('dashboard.users_management.index')->with('users',$users)->with('title',$title);
+        $roles=Role::all();
+        return view('dashboard.users_management.index',compact('roles','users','title'));
     }
 
     /**
@@ -40,7 +42,7 @@ class UserManagementController extends Controller
             'lastname'     => ['required', 'string', 'min:2', 'max:50', 'regex:/^[a-zA-Z\s]+$/'],
             'phone_number' => ['required', 'string', 'regex:/^0[67][0-9]{8}$/', 'unique:users,phone_number'],
             'email'        => ['required', 'email', 'max:100', 'unique:users,email'],
-            'role'         => ['required', 'string'],
+            'role_id'         => ['required', 'string'],
         ]);
     
         function generateStrongPassword($length = 8) {
@@ -58,7 +60,7 @@ class UserManagementController extends Controller
         $user->lastname = trim($request->input('lastname'));
         $user->phone = trim($request->input('phone_number'));
         $user->email = trim($request->input('email'));
-        $user->role = trim($request->input('role'));
+        $user->role_id = trim($request->input('role_id'));
         //$user->pharmacy_id = Auth::user()->pharmacy_id;
         $user->password = Hash::make($password);
         $user->save();
@@ -98,9 +100,9 @@ class UserManagementController extends Controller
         $data = $request->validate([
             'firstname'    => ['required', 'string', 'min:2', 'max:50', 'regex:/^[a-zA-Z\s]+$/'],
             'lastname'     => ['required', 'string', 'min:2', 'max:50', 'regex:/^[a-zA-Z\s]+$/'],
-            'phone_number' => ['required', 'string', 'regex:/^0[67][0-9]{8}$/', "unique:users,phone,$id"],
-            'email'        => ['required', 'email', 'max:100', "unique:users,email,$id"],
-            'role'         => ['required', 'string'],
+            'phone_number' => ['required', 'string'],
+            'email'        => ['required', 'email'],
+            'role_id'         => ['required', 'string'],
         ]);
     
         $user = User::findOrFail($id);
@@ -109,7 +111,7 @@ class UserManagementController extends Controller
             'lastname'     => trim($data['lastname']),
             'phone'        => trim($data['phone_number']),
             'email'        => trim($data['email']),
-            'role'         => trim($data['role']),
+            'role_id'         => trim($data['role_id']),
         ]);
     
         return redirect()->route('users_management.index')->with('success', 'User updated successfully.');

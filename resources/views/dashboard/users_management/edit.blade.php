@@ -32,13 +32,17 @@
 
                     <div class="mb-3">
                         <label for="role" class="form-label">Role</label>
-                        <select name="role" class="form-control">
-                            <option value="owner" {{ $user->role == 'owner' ? 'selected' : '' }}>Owner</option>
-                            <option value="pharmacist" {{ $user->role == 'pharmacist' ? 'selected' : '' }}>Pharmacist</option>
-                            <option value="procurer" {{ $user->role == 'procurer' ? 'selected' : '' }} >Procurer</option>
-                            <option value="cashier" {{ $user->role == 'cashier' ? 'selected' : '' }}>Cashier</option>
-                        </select>
+                        <select name="role_id" class="form-control">
+                        @foreach($roles as $role)
+                            <option value="{{ $role->id }}" {{ $user->role_id == $role->id ? 'selected' : '' }}>
+                                {{ ucfirst($role->name) }}
+                            </option>
+                        @endforeach
+                         </select>
+
                     </div>
+
+                  
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
