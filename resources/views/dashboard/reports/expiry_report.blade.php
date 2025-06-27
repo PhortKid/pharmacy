@@ -76,7 +76,7 @@
                                     <tr>
                                         <td>{{ $index + 1 }}</td>
                                         <td>{{ $product->name }}</td>
-                                        <td class="text-danger">{{ \Carbon\Carbon::parse($product->expiry_date)->format('d/m/Y') }}</td>
+                                        <td class="text-danger">{{ \Carbon\Carbon::parse($product->expire_date)->format('d/m/Y') }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>

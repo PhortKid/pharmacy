@@ -50,35 +50,40 @@ class SalesController extends Controller
            
 
             return redirect()->back()->with('danger', 'Sale error');
+        }else{
+
+
+            $purchase = Purchase::with('product')->findOrFail($validated['purchase_id']);
+            $product = $purchase->product;
+        
+            $validated['user_id'] = Auth::id();
+        
+            Sale::create(
+                [
+                    'purchase_id'=>$request->purchase_id,
+                    'quantity_sold'=>$request->quantity_sold,
+                    'total_price' =>$request->total_price,
+                    'receipt_no'=> 'DawaSmart-'. generateStrongPassword(4),
+                    'user_id'=>Auth::id(),
+                
+                ]
+            );
+        
+            $product->save();
+
+
+            $decrease_purchase->quantity_bought=$decrease_purchase->quantity_bought-$request->quantity_sold;
+            $decrease_purchase->save();
+
+            return redirect()->back()->with('success', 'Sale recorded successfully.');
+
         }
 
 
 
 
 
-                $purchase = Purchase::with('product')->findOrFail($validated['purchase_id']);
-                $product = $purchase->product;
-            
-                $validated['user_id'] = Auth::id();
-            
-                Sale::create(
-                    [
-                        'purchase_id'=>$request->purchase_id,
-                        'quantity_sold'=>$request->quantity_sold,
-                        'total_price' =>$request->total_price,
-                        'receipt_no'=> 'DawaSmart-'. generateStrongPassword(4),
-                        'user_id'=>Auth::id(),
-                    
-                    ]
-                );
-            
-                $product->save();
-
-
-           $decrease_purchase->quantity_bought=$decrease_purchase->quantity_bought-$request->quantity_sold;
-           $decrease_purchase->save();
-    
-        return redirect()->back()->with('success', 'Sale recorded successfully.');
+             
     }
     
     /**
