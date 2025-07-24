@@ -145,7 +145,7 @@
     @if(Auth::user()->hasPermission('disposal_management') || Auth::user()->hasPermission('expire_product'))
     <li class="nav-item">
       <a class="nav-link collapsed" data-bs-target="#components-nav4" data-bs-toggle="collapse" href="#">
-        <i class="bi bi-trash"></i><span>Disposal Product</span><i class="bi bi-chevron-down ms-auto"></i>
+        <i class="bi bi-trash"></i><span>Product Disposal </span><i class="bi bi-chevron-down ms-auto"></i>
       </a>
       <ul id="components-nav4" class="nav-content collapse" data-bs-parent="#sidebar-nav">
         @if(Auth::user()->hasPermission('disposal_management'))

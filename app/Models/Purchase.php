@@ -29,5 +29,15 @@ class Purchase extends Model
       return $this->belongsTo(Supplier::class);
   }
   
+    public function sales()
+    {
+        return $this->hasMany(Sale::class);
+    }
+  
+  
+  public function remainingStock()
+{
+    return $this->quantity_bought - $this->sales()->sum('quantity_sold');
+}
 
 }

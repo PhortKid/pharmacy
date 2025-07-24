@@ -1,3 +1,7 @@
+@if(!Auth::check())
+    window.location.href = "/login";
+@endif
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -51,7 +55,37 @@
 .z-top {
   z-index: 2000 !important;
 }
+/*
+header.header {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}*/
 
+
+
+
+/* hii ni kwaajili ya kuprint header na footer zisionekane     */
+@media print {
+    @import url('https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css');
+      @page {
+            margin: 0;
+        }
+        body {
+            margin: 1cm;
+            zoom: 75%; 
+        }
+        header, footer {
+            display: none;
+        }
+        
+        .table-dark {
+    background-color: #343a40 !important;
+    color: white !important;
+    -webkit-print-color-adjust: exact; /* For Safari/Chrome */
+    print-color-adjust: exact; 
+  }
 </style>               
 
   <!-- Template Main CSS File -->
@@ -64,11 +98,10 @@
   <!-- ======= Header ======= -->
   <header id="header" class="header fixed-top d-flex align-items-center">
 
-    <div class="d-flex align-items-center justify-content-between">
-      <a href="index.html" class="logo d-flex align-items-center">
-        <img src="#" alt="">
-        <span class="d-none d-lg-block">DawaSmart</span>
-      </a>
+    <div class="d-flex align-items-center justify-content-between ps-0 ms-0">
+        <img class="d-none d-lg-block" src="{{asset('favicon.png')}}" alt="" style="height: 80px;width:200px;margin-right: 20px;">
+
+
       <i class="bi bi-list toggle-sidebar-btn"></i>
     </div><!-- End Logo -->
 
@@ -164,17 +197,19 @@
               <hr class="dropdown-divider">
             </li>
 
-            <li>
-              <a class="dropdown-item d-flex align-items-center" href="#" >
-               
-                <span>
-                <form method="POST" action="{{ route('logout') }}">
-    @csrf
-    <button type="submit" class="btn btn-danger">Logout</button>
-</form>
-                </span>
-              </a>
-            </li>
+ <li>
+      <form id="logout-form" method="POST" action="{{ route('logout') }}" >
+  <a class="dropdown-item d-flex align-items-center" >
+    <span>
+      <button type="submit" class="btn btn-danger">Logout</button>
+    </span>
+     @csrf
+  </form>
+  </a>
+
+ 
+   
+</li>
 
           </ul><!-- End Profile Dropdown Items -->
         </li><!-- End Profile Nav -->
@@ -209,7 +244,7 @@
   </main><!-- End #main -->
 
 
-  <footer id="footer" class="footer py-3 @if(isset($daa))@else fixed-bottom @endif bg-white">
+  <footer id="footer" class="footer py-3 @if(isset($daaa))@else fixed-bottom @endif bg-white">
     <div class="copyright">
       &copy; Copyright <strong><span>DawaSmart</span></strong>. {{ date('Y') }} All Rights Reserved
     </div>
@@ -220,6 +255,9 @@
   </footer>
 
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+  
+
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <!-- Vendor JS Files -->
   <script src="{{ asset('assets/vendor/apexcharts/apexcharts.min.js')}}"></script>
@@ -233,6 +271,8 @@
 
   <script src="{{ asset('vendor/flasher/toastr.min.js') }}"></script>
   <script src="{{ asset('vendor/flasher/flasher-toastr.min.js') }}"></script>
+ 
+{{--
   <script>
         // Handle session messages
         @if(session('success'))
@@ -249,7 +289,93 @@
                 toastr.error("{{ $error }}", 'Validation Error');
             @endforeach
         @endif
-    </script>
+    </script>--}}
+    {{--
+    
+    <script src="{{ asset('vendor/flasher/toastr.min.js') }}"></script>
+<script src="{{ asset('vendor/flasher/flasher-toastr.min.js') }}"></script>--}}
+<!-- SweetAlert2 CDN -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  {{--  <script>
+    
+      // toastr.error("mama", 'Success');
+        // Set toastr position to bottom right
+        toastr.options = {
+            "positionClass": "toast-bottom-right", // or "toast-bottom-left", "toast-bottom-center"
+            "timeOut": "5000", // 5 seconds
+            "progressBar": true
+        };
+    
+        // Handle session messages
+        @if(session('success'))
+            toastr.success("{{ session('success') }}", 'Success');
+        @endif
+    
+        @if(session('error'))
+            toastr.error("{{ session('error') }}", 'Error');
+        @endif
+    
+        // Handle validation errors
+        @if($errors->any())
+            @foreach($errors->all() as $error)
+                toastr.error("{{ $error }}", 'Validation Error');
+            @endforeach
+        @endif
+    </script>--}}
+    
+    
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        
+        
+         
+        
+     
+        // Success message
+        @if(session('success'))
+            Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: "{{ session('success') }}",
+                position: 'bottom-end',
+                toast: true,
+                timer: 4000,
+                showConfirmButton: false
+            });
+        @endif
+
+        // Error message
+        @if(session('error'))
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: "{{ session('error') }}",
+                position: 'bottom-end',
+                toast: true,
+                timer: 4000,
+                showConfirmButton: false
+            });
+        @endif
+
+        // Validation errors
+        @if($errors->any())
+            @foreach($errors->all() as $error)
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Validation Error',
+                    text: "{{ $error }}",
+                    position: 'bottom-end',
+                    toast: true,
+                    timer: 5000,
+                    showConfirmButton: false
+                });
+            @endforeach
+        @endif
+    });
+</script>
+
+
   <!-- Template Main JS File -->
   <script src="{{ asset('assets/js/main.js')}}"></script>
   

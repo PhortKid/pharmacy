@@ -1,7 +1,7 @@
 @extends('dash_layout.app')
 
-@section('page-title', 'Waste Management')
-@section('module', 'Waste Management')
+@section('page-title', 'Products Disposal')
+@section('module', 'Products Disposal')
 
 @section('content')
 <section class="section">
@@ -9,7 +9,7 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Disposal Products</h5>
+                    <h5 class="card-title">Products Disposal </h5>
                     <div class="table-responsive">
                         <table class="table datatable">
                             <thead>

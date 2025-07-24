@@ -89,46 +89,51 @@ class SalesController extends Controller
     /**
      * Update a sale.
      */
-    public function update(Request $request, $id)
+public function update(Request $request, $id)
 {
     $validated = $request->validate([
-        'purchase_id' => 'required|exists:purchases,id',
+        'purchase_id'   => 'required|exists:purchases,id',
         'quantity_sold' => 'required|integer|min:1',
-        'total_price' => 'required|numeric|min:0',
-        'receipt_no' => 'nullable|string|max:255',
+        'total_price'   => 'required|numeric|min:0',
+        'receipt_no'    => 'nullable|string|max:255',
     ]);
 
     $sale = Sale::findOrFail($id);
     $oldQuantity = $sale->quantity_sold;
+    $oldPurchase = $sale->purchase;
 
-    $purchase = Purchase::with('product')->findOrFail($validated['purchase_id']);
-    $product = $purchase->product;
+    // Revert old sale quantity from old purchase
+    $availableQuantity = $oldPurchase->quantity_bought - $oldPurchase->sales()->sum('quantity_sold') + $oldQuantity;
 
-    $product->stock_quantity += $oldQuantity;
+    // Check if new quantity fits in new purchase
+    $newPurchase = Purchase::findOrFail($validated['purchase_id']);
+    $totalSold = $newPurchase->sales()->where('id', '!=', $sale->id)->sum('quantity_sold');
+    $remaining = $newPurchase->quantity_bought - $totalSold;
+
+    if ($validated['quantity_sold'] > $remaining) {
+        return redirect()->back()->with('error', 'Not enough stock available in this purchase.');
+    }
 
     $sale->update($validated);
-
-   
-    $product->save();
 
     return redirect()->back()->with('success', 'Sale updated successfully.');
 }
 
 
+
     /**
      * Delete a sale.
      */
-    public function destroy($id)
-    {
-        $sale = Sale::findOrFail($id);
-        $product = $sale->purchase->product;
+public function destroy($id)
+{
+    $sale = Sale::findOrFail($id);
 
-        // Revert stock
-        $product->stock_quantity += $sale->quantity_sold;
-        $product->save();
+    // No need to adjust stock directly since we always compute it from purchases
+    $sale->delete();
 
-        $sale->delete();
+    return redirect()->back()->with('success', 'Sale deleted successfully.');
+}
 
-        return redirect()->back()->with('success', 'Sale deleted successfully.');
-    }
+
+
 }

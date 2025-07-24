@@ -66,7 +66,7 @@ class UserManagementController extends Controller
         $user->save();
 
         $myemail=$user->email;
-        Mail::raw("Habari $user->firstname,\n\nPassword yako mpya ni: $password\n\nTafadhali badilisha password baada ya kuingia.", function ($message) use ($myemail) {
+        Mail::raw("Habari $user->firstname,\n\nYour new password is: $password\n\nPlease change the password after logging in.", function ($message) use ($myemail) {
             $message->to($myemail)
                     ->subject('Password yako mpya');
         });

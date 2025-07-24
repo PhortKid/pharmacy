@@ -49,7 +49,7 @@ require __DIR__.'/auth.php';
 
 Route::get('/register-pharmacy', [RegisterController::class, 'showRegistrationForm'])->name('register.form');
 Route::post('/register-pharmacy', [RegisterController::class, 'register'])->name('register.pharmacy');
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth','prevent-back'])->group(function () {
 
 Route::resource('/users_management',UserManagementController::class);
 //Route::get('/home',function(){ $title="Dashboard"; return view('dashboard.index')->with('title',$title);});

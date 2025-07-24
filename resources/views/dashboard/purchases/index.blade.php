@@ -135,7 +135,8 @@
                     <label for="payment_method_{{ $purchase->id }}" class="form-label">Payment Method</label>
                     <select id="payment_method_{{ $purchase->id }}" name="payment_method" class="form-control" required>
                         <option value="">-- Select Payment Method --</option>
-                        @foreach(['cash', 'bank', 'mobile_payment', 'insurance'] as $method)
+                        {{-- , 'bank', 'mobile_payment', 'insurance' --}}
+                        @foreach(['cash'] as $method)
                             <option value="{{ $method }}" {{ strtolower($purchase->payment_method) == $method ? 'selected' : '' }}>
                                 {{ ucwords(str_replace('_', ' ', $method)) }}
                             </option>
@@ -194,6 +195,176 @@
 
 
 </div><!-- End of container -->
+
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const form = document.querySelector('#addPurchaseModal form');
+
+    const quantityInput = form.querySelector('input[name="quantity_bought"]');
+    const unitPriceInput = form.querySelector('input[name="unit_price"]');
+    const sellingPriceInput = form.querySelector('input[name="selling_price"]');
+    const totalPurchaseInput = form.querySelector('input[name="total_purchase"]');
+    const datePurchaseInput = form.querySelector('input[name="date_of_purchase"]');
+    const expireDateInput = form.querySelector('input[name="expire_date"]');
+    const manufacturerInput = form.querySelector('input[name="manufacturer"]');
+
+    // Calculate total purchase = quantity * unit price
+    function updateTotal() {
+        const qty = parseInt(quantityInput.value);
+        const unit = parseFloat(unitPriceInput.value);
+        if (!isNaN(qty) && !isNaN(unit)) {
+            totalPurchaseInput.value = (qty * unit).toFixed(2);
+        }
+    }
+
+    quantityInput.addEventListener('input', updateTotal);
+    unitPriceInput.addEventListener('input', updateTotal);
+
+    // Allow letters only for manufacturer
+    function isLettersOnly(value) {
+        return /^[A-Za-z\s]+$/.test(value.trim());
+    }
+
+    manufacturerInput.addEventListener('input', function () {
+        if (isLettersOnly(manufacturerInput.value)) {
+            manufacturerInput.classList.remove('is-invalid');
+            manufacturerInput.classList.add('is-valid');
+        } else {
+            manufacturerInput.classList.remove('is-valid');
+            manufacturerInput.classList.add('is-invalid');
+        }
+    });
+
+    // Final form validation before submit
+    form.addEventListener('submit', function (e) {
+        const qty = parseInt(quantityInput.value);
+        const unit = parseFloat(unitPriceInput.value);
+        const sell = parseFloat(sellingPriceInput.value);
+        const total = parseFloat(totalPurchaseInput.value);
+        const date1 = new Date(datePurchaseInput.value);
+        const date2 = new Date(expireDateInput.value);
+        const manuValid = isLettersOnly(manufacturerInput.value);
+
+        let valid = true;
+
+        if (isNaN(qty) || qty <= 0) {
+            quantityInput.classList.add('is-invalid');
+            valid = false;
+        }
+
+        if (isNaN(unit) || unit <= 0) {
+            unitPriceInput.classList.add('is-invalid');
+            valid = false;
+        }
+
+        if (isNaN(sell) || sell <= 0) {
+            sellingPriceInput.classList.add('is-invalid');
+            valid = false;
+        }
+
+        if (!manuValid) {
+            manufacturerInput.classList.add('is-invalid');
+            valid = false;
+        }
+
+        if (datePurchaseInput.value && expireDateInput.value && date2 < date1) {
+            expireDateInput.classList.add('is-invalid');
+            alert("Expire date must be after or same as Date of Purchase.");
+            valid = false;
+        }
+
+        if (!valid) {
+            e.preventDefault(); // stop form from submitting
+        }
+    });
+});
+</script>
+
+{{--
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const purchaseId = @json($purchase->id); // ensure dynamic ID
+    const form = document.querySelector(`form[action*='purchases/update/${purchaseId}']`);
+
+    const unitPrice = document.getElementById(`unit_price_${purchaseId}`);
+    const quantityBought = document.getElementById(`quantity_bought_${purchaseId}`);
+    const totalPurchase = document.getElementById(`total_purchase_${purchaseId}`);
+    const sellingPrice = document.getElementById(`selling_price_${purchaseId}`);
+    const datePurchase = document.getElementById(`date_of_purchase_${purchaseId}`);
+    const expireDate = document.getElementById(`expire_date_${purchaseId}`);
+    const manufacturer = document.getElementById(`manufacturer_${purchaseId}`);
+
+    // Live calculation of total purchase
+    function updateTotal() {
+        const unit = parseFloat(unitPrice.value);
+        const qty = parseInt(quantityBought.value);
+        if (!isNaN(unit) && !isNaN(qty)) {
+            totalPurchase.value = (unit * qty).toFixed(2);
+        }
+    }
+
+    unitPrice.addEventListener('input', updateTotal);
+    quantityBought.addEventListener('input', updateTotal);
+
+    // Manufacturer: allow letters only
+    function isLettersOnly(value) {
+        return /^[A-Za-z\s]+$/.test(value.trim());
+    }
+
+    manufacturer.addEventListener('input', function () {
+        if (isLettersOnly(manufacturer.value)) {
+            manufacturer.classList.remove('is-invalid');
+            manufacturer.classList.add('is-valid');
+        } else {
+            manufacturer.classList.add('is-invalid');
+        }
+    });
+
+    // Prevent submission if invalid
+    form.addEventListener('submit', function (e) {
+        const unit = parseFloat(unitPrice.value);
+        const sell = parseFloat(sellingPrice.value);
+        const qty = parseInt(quantityBought.value);
+        const date1 = new Date(datePurchase.value);
+        const date2 = new Date(expireDate.value);
+
+        let valid = true;
+
+        if (isNaN(unit) || unit <= 0) {
+            unitPrice.classList.add('is-invalid');
+            valid = false;
+        }
+
+        if (isNaN(sell) || sell <= 0) {
+            sellingPrice.classList.add('is-invalid');
+            valid = false;
+        }
+
+        if (isNaN(qty) || qty <= 0) {
+            quantityBought.classList.add('is-invalid');
+            valid = false;
+        }
+
+        if (!isLettersOnly(manufacturer.value)) {
+            manufacturer.classList.add('is-invalid');
+            valid = false;
+        }
+
+        if (expireDate.value && date2 < date1) {
+            alert("Expire date must be later than or equal to purchase date.");
+            expireDate.classList.add('is-invalid');
+            valid = false;
+        }
+
+        if (!valid) {
+            e.preventDefault();
+        }
+    });
+});
+</script>--}}
+
 
 
 <script>

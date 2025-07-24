@@ -66,4 +66,71 @@
         </div>
     </div>
 </section>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const form = document.querySelector('#disablebackdrop form');
+
+    const firstname = document.getElementById('firstname');
+    const lastname = document.getElementById('lastname');
+    const email = document.getElementById('email');
+    const phone = document.getElementById('phone_number');
+    const role = document.getElementById('role');
+
+    // Helper to validate letters only
+    function isLettersOnly(value) {
+        return /^[A-Za-z]+$/.test(value);
+    }
+
+    // Helper to mark valid/invalid
+    function markInvalid(input, isValid) {
+        if (isValid) {
+            input.classList.remove('is-invalid');
+            input.classList.add('is-valid');
+        } else {
+            input.classList.remove('is-valid');
+            input.classList.add('is-invalid');
+        }
+    }
+
+    firstname.addEventListener('input', function () {
+        markInvalid(firstname, isLettersOnly(firstname.value) && firstname.value.length >= 2);
+    });
+
+    lastname.addEventListener('input', function () {
+        markInvalid(lastname, isLettersOnly(lastname.value) && lastname.value.length >= 2);
+    });
+
+    email.addEventListener('input', function () {
+        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        markInvalid(email, regex.test(email.value));
+    });
+
+    phone.addEventListener('input', function () {
+        const regex = /^0[67][0-9]{8}$/;
+        markInvalid(phone, regex.test(phone.value));
+    });
+
+    role.addEventListener('change', function () {
+        markInvalid(role, role.value !== '');
+    });
+
+    // Prevent form submission if invalid
+    form.addEventListener('submit', function (e) {
+        const validFirst = isLettersOnly(firstname.value) && firstname.value.length >= 2;
+        const validLast = isLettersOnly(lastname.value) && lastname.value.length >= 2;
+        const validEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value);
+        const validPhone = /^0[67][0-9]{8}$/.test(phone.value);
+        const validRole = role.value !== '';
+
+        if (!validFirst || !validLast || !validEmail || !validPhone || !validRole) {
+            e.preventDefault();
+            alert('Please correct the errors before submitting the form.');
+        }
+    });
+});
+</script>
+
+
 @endsection

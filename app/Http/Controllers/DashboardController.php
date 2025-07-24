@@ -26,7 +26,16 @@ class DashboardController extends Controller
         $totalProducts = Product::count();
 
         // Count expired products
+        /*
         $expiredCount = Purchase::whereDate('expiry_date', '<', now())
+            ->count();
+            */
+            
+             $today = Carbon::today();
+             $expiredCount= DB::table('purchases')
+            ->join('products', 'purchases.product_id', '=', 'products.id')
+            ->whereDate('expire_date', '<', $today)
+            ->select('products.name', 'purchases.expire_date')
             ->count();
 
         // Count products expiring in 7 days

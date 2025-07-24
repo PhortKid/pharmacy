@@ -10,12 +10,12 @@
                 <form action="{{ route('users_management.store') }}" method="post">
                     @csrf
                     <div class="mb-3">
-                        <label for="firstname" class="form-label">Firstname</label>
+                        <label for="firstname" class="form-label">First Name</label>
                         <input type="text" class="form-control" id="firstname" name="firstname" placeholder="Enter firstname" required autocomplete="off">
                     </div>
 
                     <div class="mb-3">
-                        <label for="lastname" class="form-label">Lastname</label>
+                        <label for="lastname" class="form-label">Last Name</label>
                         <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Enter lastname" required autocomplete="off">
                     </div>
 
@@ -26,7 +26,7 @@
 
                     <div class="mb-3">
                         <label for="phone_number" class="form-label">Phone Number</label>
-                        <input type="text" class="form-control" id="phone_number" name="phone_number" placeholder="07..." required autocomplete="off">
+                        <input type="number" class="form-control" id="phone_number" name="phone_number" placeholder="07..." required autocomplete="off">
                     </div>
 
                     <div class="mb-3">

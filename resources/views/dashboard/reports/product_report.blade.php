@@ -4,6 +4,9 @@
 @section('module', 'Report Module')
 
 @section('content')
+
+
+
 <section class="section mb-5">
     <div class="row">
         <!-- Cards for Category Counts -->
@@ -18,7 +21,7 @@
                             </div>
                             <div class="ps-3">
                                 <h6>{{ $category->products->count() }}</h6> <!-- Count total products -->
-                                <span class="text-muted small pt-2">Total Products</span>
+                                <span class="text-muted small pt-2">Total Batch</span>
                             </div>
                         </div>
                     </div>
@@ -97,5 +100,13 @@
             </div>
         </div>
     </div>
+    
+    <!-- Key/Legend -->
+<div class="mb-3">
+    <h4>Note</h4>
+    <span class="badge bg-danger">&nbsp;&nbsp;</span> <span class="ms-2">Expired Products</span>
+</div>
 </section>
+
+
 @endsection

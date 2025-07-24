@@ -19,17 +19,23 @@
         <div class="col-md-4 mt-4">
                 <button type="submit" class="btn btn-primary">Filter</button>
             </form>
+            
+             <!-- Button ya kuprint ripoti -->
+                 <button class="btn btn-success" onclick="printContent()">Print Report</button>
         </div>
 </div>
     
-
+     <div class="printableeee" id="printable-area"> 
+    <!-- Header Section (Company Info) -->
+   
+    
 
     <div class="row">
         <!-- Sales & Revenue Cards -->
         <div class="col-lg-6">
             <div class="card info-card sales-card">
                 <div class="card-body">
-                    <h5 class="card-title">Total Sales</h5>
+                    <h5 class="card-title">Total Sold Product</h5>
                     <div class="d-flex align-items-center">
                         <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                             <i class="bi bi-cart"></i>
@@ -94,6 +100,18 @@
         </div> -->
     </div>
 </section>
+
+</div> <!-- printable area -->
+
+<script>
+    function printContent() {
+        var printArea = document.getElementById('printable-area').innerHTML;
+        var originalContent = document.body.innerHTML;
+        document.body.innerHTML = printArea;
+        window.print();
+        document.body.innerHTML = originalContent;
+    }
+</script>
 
 <!-- Chart.js Script -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

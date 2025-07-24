@@ -55,9 +55,9 @@
                         <select name="payment_method" class="form-control" required>
                             <option value="">-- Select Method --</option>
                             <option value="Cash">Cash</option>
-                            <option value="Bank">Bank</option>
+                         {{--   <option value="Bank">Bank</option>
                             <option value="Mobile Payment">Mobile Payment</option>
-                            <option value="Insurance">Insurance</option>
+                            <option value="Insurance">Insurance</option>--}}
                         </select>
                     </div>
 

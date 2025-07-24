@@ -15,8 +15,17 @@
         <div class="col-md-4 mt-4">
                 <button type="submit" class="btn btn-primary">Filter</button>
             </form>
+            
+                <!-- Button ya kuprint ripoti -->
+                 <button class="btn btn-success" onclick="printContent()">Print Report</button>
         </div>
     </div>
+    
+    
+    <div class="printableeee" id="printable-area"> 
+    <!-- Header Section (Company Info) -->
+   
+    
     
     <div class="row">
         <!-- Purchased Stock Card -->
@@ -89,7 +98,7 @@
                     <tr>
                         <th>Product</th>
                         <th>Total Purchased</th>
-                        <th>Total Cost (TZS)</th>
+                        <th>Total Cost Of Purchase (TZS)</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -105,6 +114,7 @@
         </div>
     </div>
 
+{{--
     <!-- Sales Table -->
     <div class="card mt-4">
         <div class="card-header bg-success text-white">Sales Details</div>
@@ -128,8 +138,10 @@
                 </tbody>
             </table>
         </div>
-    </div>
+    </div>--}}
 
+
+    {{--
     <!-- Profit/Loss Table -->
     <div class="card mt-4">
         <div class="card-header bg-danger text-white">Profit/Loss Details</div>
@@ -155,7 +167,21 @@
                 </tbody>
             </table>
         </div>
+    </div>--}}
+    
     </div>
+               
+              
+    </div>
+ 
 
-    </div>
+<script>
+    function printContent() {
+        var printArea = document.getElementById('printable-area').innerHTML;
+        var originalContent = document.body.innerHTML;
+        document.body.innerHTML = printArea;
+        window.print();
+        document.body.innerHTML = originalContent;
+    }
+</script>
 @endsection

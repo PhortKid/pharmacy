@@ -44,7 +44,7 @@
                                         <a href="/receipt/{{$sale->receipt_no}}" class="btn btn-secondary btn-sm" >
                                             <i class="bi bi-receipt"></i> Receipt
                                         </a>
-                                        <a href="#" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editSaleModal{{ $sale->id }}">
+                                       <a href="#" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editSaleModal{{ $sale->id }}">
                                             <i class="bi bi-pencil"></i> Edit
                                         </a>
                                         <a href="#" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteSaleModal{{ $sale->id }}">
@@ -145,6 +145,66 @@
 @endforeach
 
 
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const form = document.querySelector('#createSaleModal form');
+
+    const purchaseSelect = document.getElementById('purchase_id');
+    const quantityInput = document.getElementById('quantity_sold');
+    const totalInput = document.getElementById('total_price');
+
+    let sellingPrice = 0;
+
+    // When a purchase is selected, get its selling price
+    purchaseSelect.addEventListener('change', function () {
+        const selectedOption = purchaseSelect.options[purchaseSelect.selectedIndex];
+        sellingPrice = parseFloat(selectedOption.getAttribute('data-price')) || 0;
+        updateTotal();
+    });
+
+    // Calculate total on quantity input
+    quantityInput.addEventListener('input', function () {
+        updateTotal();
+    });
+
+    // Function to calculate total price
+    function updateTotal() {
+        const quantity = parseInt(quantityInput.value);
+        if (!isNaN(quantity) && sellingPrice > 0) {
+            totalInput.value = (quantity * sellingPrice).toFixed(2);
+        }
+    }
+
+    // Final validation before submitting
+    form.addEventListener('submit', function (e) {
+        const quantity = parseInt(quantityInput.value);
+        const total = parseFloat(totalInput.value);
+
+        let valid = true;
+
+        if (purchaseSelect.value === '') {
+            purchaseSelect.classList.add('is-invalid');
+            valid = false;
+        }
+
+        if (isNaN(quantity) || quantity <= 0) {
+            quantityInput.classList.add('is-invalid');
+            valid = false;
+        }
+
+        if (isNaN(total) || total <= 0) {
+            totalInput.classList.add('is-invalid');
+            valid = false;
+        }
+
+        if (!valid) {
+            e.preventDefault();
+        }
+    });
+});
+</script>
 
 
 <script>

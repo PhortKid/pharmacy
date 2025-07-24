@@ -95,27 +95,28 @@
     @if(isset(Auth::user()->firstname))
     <div class="print-controls no-print">
         <button onclick="window.print()" style="padding: 8px 16px; background-color: yellow; color: black; border: none; cursor: pointer;">Print Receipt</button>
-        <button onclick="window.close()" style="padding: 8px 16px; background-color: yellow; color: black; border: none; cursor: pointer; margin-left: 10px;">Close</button>
+        <button onclick="window.history.back()" style="padding: 8px 16px; background-color: yellow; color: black; border: none; cursor: pointer; margin-left: 10px;">Close</button>
     </div>
     @endif
 
     <div class="thermal-receipt">
         <div class="receipt-header">
             <p>*** START OF LEGAL RECEIPT ***</p>
-        <img src="{{ asset('logo/logo.jpg') }}" alt="Company Logo" style="width: 80px; height: auto; margin-bottom: 5px;">
+        <img src="{{ asset('favicon.png') }}" alt="Company Logo" style="width: 100px; max-width: 100%; height: auto; margin-bottom: 5px;">
+
             
             <h1>DawaSmart</h1>
             <p>P.O. BOX 1087</p>
             <p>Iringa , TANZANIA</p>
-            <p>TIN: 99999</p>
+            <p>TIN: 105-246-789</p>
             
         </div>
 
-        <div class="divider"></div>
+       {{-- <div class="divider"></div>--}}
 
-        <p><strong>CUSTOMER NAME:</strong> {{ $customer->firstname }} {{ $customer->lastname }}</p>
+      {{--  <p><strong>CUSTOMER NAME:</strong> {{ $customer->firstname }} {{ $customer->lastname }}</p>--}}
         {{--   <p><strong>CUSTOMER ID TYPE:</strong></p>--}}
-        <p><strong>CUSTOMER ID:</strong> </p>
+      {{--  <p><strong>CUSTOMER ID:</strong> </p>--}}
        
  <div class="divider"></div>
         <p><strong>RECEIPT NUMBER:</strong> {{ $customer->receipt_no }}</p>
@@ -175,11 +176,17 @@
     </div>
     @if(isset(Auth::user()->firstname))
     <script>
-        window.onload = function() {
+    
+      function printi(){
+          
+           window.onload = function() {
             setTimeout(function () {
                 window.print();
             }, 500);
         };
+          
+      }
+       
     </script>
        @endif
 </body>

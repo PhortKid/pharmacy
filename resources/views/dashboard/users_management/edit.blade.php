@@ -11,12 +11,12 @@
                     @csrf
                     @method('PUT')
                     <div class="mb-3">
-                        <label for="firstname" class="form-label">Firstname</label>
+                        <label for="firstname" class="form-label">First Name</label>
                         <input type="text" class="form-control" name="firstname" value="{{ $user->firstname }}" required>
                     </div>
 
                     <div class="mb-3">
-                        <label for="lastname" class="form-label">Lastname</label>
+                        <label for="lastname" class="form-label">Last Name</label>
                         <input type="text" class="form-control" name="lastname" value="{{ $user->lastname }}" required>
                     </div>
 
